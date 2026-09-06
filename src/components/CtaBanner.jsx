@@ -33,14 +33,14 @@ export default function CtaBanner({ onOpenBooking, onScrollToContact }) {
           <button
             onClick={() => onOpenBooking && onOpenBooking()}
             className="btn-primary-orange"
-            style={{ padding: '8px 20px', fontSize: '0.75rem' }}
+            style={{ padding: '9px 22px', fontSize: '0.85rem' }}
           >
             BOOK NOW
           </button>
           <Link
             href="/contact"
             className="btn-ghost-white"
-            style={{ padding: '8px 20px', fontSize: '0.75rem' }}
+            style={{ padding: '9px 22px', fontSize: '0.85rem' }}
           >
             CONTACT US
           </Link>

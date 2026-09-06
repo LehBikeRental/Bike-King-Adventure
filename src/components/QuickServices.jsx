@@ -1,36 +1,26 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
-import { Bike, Car, Compass, Building2 } from 'lucide-react';
+import { Bike, Car, Compass, Building2, Snowflake, Sparkles, ArrowRight } from 'lucide-react';
 import { quickServicesData } from '../data/reviews';
 
 export default function QuickServices({ onSelectService }) {
   const getIcon = (item) => {
-    if (item.type === 'image') {
-      return (
-        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-          <Image
-            src={item.image}
-            alt={item.title}
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-      );
-    }
-
     switch (item.iconType) {
       case 'bike':
-        return <Bike size={22} style={{ color: 'var(--slate-800)' }} />;
+        return <Bike size={24} strokeWidth={2.2} />;
       case 'car':
-        return <Car size={22} style={{ color: 'var(--slate-800)' }} />;
+        return <Car size={24} strokeWidth={2.2} />;
       case 'traveler':
-        return <Compass size={22} style={{ color: 'var(--slate-800)' }} />;
+        return <Compass size={24} strokeWidth={2.2} />;
       case 'hotel':
-        return <Building2 size={22} style={{ color: 'var(--slate-800)' }} />;
+        return <Building2 size={24} strokeWidth={2.2} />;
+      case 'snow-leopard':
+        return <Snowflake size={24} strokeWidth={2.2} />;
+      case 'frozen-lake':
+        return <Sparkles size={24} strokeWidth={2.2} />;
       default:
-        return <Compass size={22} style={{ color: 'var(--slate-800)' }} />;
+        return <Compass size={24} strokeWidth={2.2} />;
     }
   };
 
@@ -41,15 +31,44 @@ export default function QuickServices({ onSelectService }) {
           {quickServicesData.map((item) => (
             <div
               key={item.id}
-              className="quick-service-item"
+              className="quick-service-card"
               onClick={() => onSelectService && onSelectService(item)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSelectService && onSelectService(item);
+                }
+              }}
             >
-              <div className="quick-service-icon-box">
+              {/* Top-Left: Circular pastel icon badge */}
+              <div
+                className="quick-service-badge"
+                style={{
+                  backgroundColor: item.badgeBg,
+                  color: item.badgeColor
+                }}
+              >
                 {getIcon(item)}
               </div>
-              <div>
+
+              {/* Title & Description */}
+              <div className="quick-service-content">
                 <h3 className="quick-service-title">{item.title}</h3>
                 <p className="quick-service-desc">{item.desc}</p>
+              </div>
+
+              {/* Bottom-Right: Circular pastel right arrow button */}
+              <div
+                className="quick-service-arrow-btn"
+                style={{
+                  backgroundColor: item.arrowBg,
+                  color: item.arrowColor
+                }}
+                aria-label={`View ${item.title}`}
+              >
+                <ArrowRight size={17} strokeWidth={2.5} />
               </div>
             </div>
           ))}
@@ -58,3 +77,4 @@ export default function QuickServices({ onSelectService }) {
     </div>
   );
 }
+

@@ -72,7 +72,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 900, textTransform: 'uppercase', lineHeight: 1.15 }}>
               {pkg.title}
             </h2>
-            <p style={{ fontSize: '0.75rem', color: 'var(--slate-200)', marginTop: '4px' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--slate-200)', marginTop: '4px' }}>
               📍 {pkg.route}
             </p>
           </div>
@@ -92,7 +92,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
             borderBottom: '1px solid var(--slate-200)'
           }}>
             <div>
-              <span style={{ fontSize: '0.6875rem', color: 'var(--slate-500)', textTransform: 'uppercase', fontWeight: 700 }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)', textTransform: 'uppercase', fontWeight: 700 }}>
                 Tour Cost Per Person
               </span>
               <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 900, color: 'var(--primary-orange)' }}>
@@ -102,7 +102,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
 
             <div style={{ display: 'flex', gap: '16px' }}>
               {pkg.inclusions.map((inc, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)' }}>
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)' }}>
                   <div style={{ color: 'var(--primary-orange)' }}>
                     {getAmenityIcon(inc.name)}
                   </div>
@@ -115,12 +115,12 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
           {/* Highlights */}
           {pkg.highlights && (
             <div style={{ marginTop: '18px' }}>
-              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--slate-900)', marginBottom: '8px' }}>
+              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.95rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--slate-900)', marginBottom: '8px' }}>
                 Tour Highlights
               </h4>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '8px' }}>
                 {pkg.highlights.map((hl, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '0.75rem', color: 'var(--slate-700)' }}>
+                  <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '0.85rem', color: 'var(--slate-700)' }}>
                     <Check size={14} style={{ color: '#059669', flexShrink: 0, marginTop: '2px' }} />
                     <span>{hl}</span>
                   </div>
@@ -132,7 +132,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
           {/* Day-wise Itinerary */}
           {pkg.itinerary && (
             <div style={{ marginTop: '20px' }}>
-              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.875rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--slate-900)', marginBottom: '10px' }}>
+              <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.95rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--slate-900)', marginBottom: '10px' }}>
                 Day-by-Day Itinerary
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '240px', overflowY: 'auto', paddingRight: '6px' }}>
@@ -144,14 +144,14 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
                     padding: '10px 12px'
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
-                      <span style={{ fontSize: '0.6875rem', fontWeight: 800, background: 'var(--primary-orange)', color: 'var(--white)', padding: '2px 6px', borderRadius: '3px' }}>
+                      <span style={{ fontSize: '0.775rem', fontWeight: 800, background: 'var(--primary-orange)', color: 'var(--white)', padding: '2px 6px', borderRadius: '3px' }}>
                         {item.day}
                       </span>
-                      <h5 style={{ fontSize: '0.775rem', fontWeight: 800, color: 'var(--slate-900)' }}>
+                      <h5 style={{ fontSize: '0.875rem', fontWeight: 800, color: 'var(--slate-900)' }}>
                         {item.title}
                       </h5>
                     </div>
-                    <p style={{ fontSize: '0.7125rem', color: 'var(--slate-600)', lineHeight: 1.4 }}>
+                    <p style={{ fontSize: '0.825rem', color: 'var(--slate-600)', lineHeight: 1.45 }}>
                       {item.desc}
                     </p>
                   </div>
@@ -168,7 +168,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
                 if (onBookPackage) onBookPackage(pkg);
               }}
               className="btn-primary-orange"
-              style={{ flex: 1, padding: '12px', fontSize: '0.85rem' }}
+              style={{ flex: 1, padding: '12px', fontSize: '0.875rem' }}
             >
               BOOK THIS TOUR NOW <ArrowRight size={16} />
             </button>
@@ -177,7 +177,7 @@ export default function PackageModal({ pkg, isOpen, onClose, onBookPackage }) {
               target="_blank"
               rel="noopener noreferrer"
               className="btn-dark-pill"
-              style={{ borderRadius: 'var(--radius-md)', padding: '12px 20px', fontSize: '0.8rem' }}
+              style={{ borderRadius: 'var(--radius-md)', padding: '12px 20px', fontSize: '0.85rem' }}
             >
               WhatsApp Inquiry
             </a>

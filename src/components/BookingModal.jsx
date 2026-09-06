@@ -128,7 +128,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
                   background: bookingType === type ? 'var(--primary-orange-light)' : 'var(--slate-50)',
                   color: bookingType === type ? 'var(--primary-orange)' : 'var(--slate-700)',
                   fontWeight: 800,
-                  fontSize: '0.75rem',
+                  fontSize: '0.825rem',
                   textTransform: 'uppercase',
                   cursor: 'pointer'
                 }}
@@ -143,7 +143,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
             {/* Conditional Dropdown Selection */}
             {bookingType === 'bike' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
                   Select Motorcycle Model
                 </label>
                 <select
@@ -162,7 +162,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
 
             {bookingType === 'package' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
                   Select Tour Package
                 </label>
                 <select
@@ -181,7 +181,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
 
             {bookingType === 'service' && (
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '6px' }}>
                   Select Service Type
                 </label>
                 <select
@@ -202,7 +202,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px' }}>
               {bookingType === 'bike' && (
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
+                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
                     Rental Days
                   </label>
                   <input
@@ -217,7 +217,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               )}
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
                   {bookingType === 'bike' ? 'No. of Bikes' : 'No. of Persons'}
                 </label>
                 <input
@@ -231,7 +231,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
                   Trip Start Date
                 </label>
                 <input
@@ -246,7 +246,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
             {/* Customer Details */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
                   Full Name
                 </label>
                 <input
@@ -259,7 +259,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
                 />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: 'var(--slate-800)', marginBottom: '4px' }}>
                   WhatsApp / Phone No.
                 </label>
                 <input
@@ -284,14 +284,14 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               justifyContent: 'space-between'
             }}>
               <div>
-                <span style={{ fontSize: '0.6875rem', color: 'var(--slate-500)', textTransform: 'uppercase', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)', textTransform: 'uppercase', fontWeight: 700 }}>
                   Estimated Booking Amount
                 </span>
                 <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900, color: 'var(--slate-900)' }}>
                   ₹{calculateEstimate().toLocaleString('en-IN')}
                 </p>
               </div>
-              <span style={{ fontSize: '0.6875rem', color: '#059669', background: '#D1FAE5', padding: '4px 8px', borderRadius: '4px', fontWeight: 700 }}>
+              <span style={{ fontSize: '0.775rem', color: '#059669', background: '#D1FAE5', padding: '4px 8px', borderRadius: '4px', fontWeight: 700 }}>
                 ✓ Zero Advance Fee
               </span>
             </div>
@@ -300,12 +300,12 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
             <button
               type="submit"
               className="btn-primary-orange"
-              style={{ width: '100%', padding: '12px', fontSize: '0.85rem' }}
+              style={{ width: '100%', padding: '12px', fontSize: '0.875rem' }}
             >
               CONFIRM & INQUIRE ON WHATSAPP <ArrowRight size={16} />
             </button>
 
-            <p style={{ fontSize: '0.6875rem', color: 'var(--slate-500)', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--slate-500)', textAlign: 'center' }}>
               🔒 Instant confirmation with Biker King office in Malpax Complex, Leh.
             </p>
 

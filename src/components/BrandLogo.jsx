@@ -130,7 +130,7 @@ export default function BrandLogo({ size = 48, showText = true, isLight = false 
           </span>
           <span style={{
             fontFamily: 'var(--font-display)',
-            fontSize: size > 40 ? '0.7rem' : '0.625rem',
+            fontSize: size > 40 ? '0.78rem' : '0.72rem',
             fontWeight: 800,
             letterSpacing: '0.2em',
             color: 'var(--primary-orange)',

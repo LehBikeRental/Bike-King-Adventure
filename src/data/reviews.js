@@ -39,44 +39,60 @@ export const quickServicesData = [
     title: "Bike Rental",
     desc: "Premium bikes for every adventure",
     iconType: "bike",
-    type: "icon"
+    badgeBg: "#E0F2FE",
+    badgeColor: "#0284C7",
+    arrowBg: "#E0F2FE",
+    arrowColor: "#0284C7"
   },
   {
     id: "taxi-service",
     title: "Taxi Service Leh Ladakh",
     desc: "Comfortable & safe taxi service",
     iconType: "car",
-    type: "icon"
+    badgeBg: "#FFEDD5",
+    badgeColor: "#EA580C",
+    arrowBg: "#FFEDD5",
+    arrowColor: "#EA580C"
   },
   {
     id: "tour-package",
     title: "Tour Package",
     desc: "Customized packages for solo, couple & group",
     iconType: "traveler",
-    type: "icon"
+    badgeBg: "#DCFCE7",
+    badgeColor: "#059669",
+    arrowBg: "#DCFCE7",
+    arrowColor: "#059669"
   },
   {
     id: "hotel-availability",
     title: "Hotel Availability",
     desc: "Best hotels & homestays across Ladakh",
     iconType: "hotel",
-    type: "icon"
+    badgeBg: "#EDE9FE",
+    badgeColor: "#7C3AED",
+    arrowBg: "#EDE9FE",
+    arrowColor: "#7C3AED"
   },
   {
     id: "snow-leopard",
     title: "Snow Leopard in Winter",
     desc: "Witness the majestic snow leopard",
     iconType: "snow-leopard",
-    image: "/images/services/snow-leopard.jpg",
-    type: "image"
+    badgeBg: "#CFFAFE",
+    badgeColor: "#0891B2",
+    arrowBg: "#CFFAFE",
+    arrowColor: "#0891B2"
   },
   {
     id: "frozen-pangong",
     title: "Frozen Pangong Lake in Winter",
     desc: "Experience the magical frozen lake",
     iconType: "frozen-lake",
-    image: "/images/services/frozen-lake.jpg",
-    type: "image"
+    badgeBg: "#DBEAFE",
+    badgeColor: "#2563EB",
+    arrowBg: "#DBEAFE",
+    arrowColor: "#2563EB"
   }
 ];
 

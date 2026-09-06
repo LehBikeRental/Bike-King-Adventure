@@ -28,7 +28,7 @@ export default function GetInTouch() {
         <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: 'var(--slate-900)', textTransform: 'uppercase' }}>
           GET IN TOUCH
         </h3>
-        <p style={{ fontSize: '0.7125rem', color: 'var(--slate-500)' }}>
+        <p style={{ fontSize: '0.85rem', color: 'var(--slate-500)' }}>
           We'd love to hear from you!
         </p>
       </div>
@@ -42,14 +42,14 @@ export default function GetInTouch() {
           textAlign: 'center'
         }}>
           <CheckCircle2 size={32} style={{ color: 'var(--primary-orange)', margin: '0 auto 8px auto' }} />
-          <h4 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--slate-900)' }}>Message Sent Successfully!</h4>
-          <p style={{ fontSize: '0.75rem', color: 'var(--slate-600)', marginTop: '4px' }}>
+          <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--slate-900)' }}>Message Sent Successfully!</h4>
+          <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)', marginTop: '4px' }}>
             Our Leh team is reviewing your inquiry. We have also opened WhatsApp to assist you immediately.
           </p>
           <button
             onClick={() => setSubmitted(false)}
             className="btn-primary-orange"
-            style={{ marginTop: '12px', padding: '6px 16px', fontSize: '0.75rem' }}
+            style={{ marginTop: '12px', padding: '8px 18px', fontSize: '0.85rem' }}
           >
             Send Another Message
           </button>
@@ -69,7 +69,7 @@ export default function GetInTouch() {
             />
             <input
               type="email"
-              placeholder="Email Address"
+              placeholder="Email"
               required
               className="form-input"
               value={formData.email}
@@ -81,15 +81,14 @@ export default function GetInTouch() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' }}>
             <input
               type="tel"
-              placeholder="Phone Number"
-              required
+              placeholder="Phone (Optional)"
               className="form-input"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             />
             <input
               type="text"
-              placeholder="Subject"
+              placeholder="Subject (e.g. Tour Inquiry)"
               className="form-input"
               value={formData.subject}
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -111,7 +110,7 @@ export default function GetInTouch() {
           <button
             type="submit"
             className="btn-primary-orange"
-            style={{ width: '100%', padding: '10px 16px', fontSize: '0.8rem', marginTop: '2px' }}
+            style={{ width: '100%', padding: '10px 16px', fontSize: '0.875rem', marginTop: '2px' }}
           >
             SEND MESSAGE
           </button>
