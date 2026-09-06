@@ -1,7 +1,7 @@
 export const bikesData = [
   {
     id: "himalayan-411",
-    name: "Himaleyan 411",
+    name: "Himalayan 411",
     specs: "411cc | Adventure",
     engine: "411cc, Air-Oil Cooled Single Cylinder",
     power: "24.3 bhp @ 6500 rpm",
@@ -16,7 +16,7 @@ export const bikesData = [
   },
   {
     id: "himalayan-450",
-    name: "Himaleyan 450",
+    name: "Himalayan 450",
     specs: "450cc | Adventure",
     engine: "452cc Liquid-Cooled Sherpa Engine",
     power: "40.02 PS @ 8000 rpm",
@@ -31,7 +31,7 @@ export const bikesData = [
   },
   {
     id: "himalayan-440",
-    name: "Himaleyan 440",
+    name: "Himalayan 440",
     specs: "440cc | Adventure",
     engine: "440cc Oil-Cooled Long Stroke Engine",
     power: "27 PS @ 6000 rpm",
@@ -46,7 +46,7 @@ export const bikesData = [
   },
   {
     id: "scram-411",
-    name: "SCRAME 411",
+    name: "Scram 411",
     specs: "411cc | Scrambler",
     engine: "411cc LS410 Single Cylinder",
     power: "24.3 bhp @ 6500 rpm",
@@ -61,7 +61,7 @@ export const bikesData = [
   },
   {
     id: "meteor-350",
-    name: "Metore 350",
+    name: "Meteor 350",
     specs: "349cc | Cruiser",
     engine: "349cc J-Series Smooth Cruiser Engine",
     power: "20.2 bhp @ 6100 rpm",
@@ -90,8 +90,8 @@ export const bikesData = [
     description: "Compact, punchy roadster with quick steering geometry, ideal for local Leh exploration and monastery visits."
   },
   {
-    id: "scuty",
-    name: "Scuty",
+    id: "scooty",
+    name: "Scooty",
     specs: "Automatic | Scooter",
     engine: "125cc Fuel Injection Automatic",
     power: "8.2 bhp @ 6500 rpm",

@@ -33,14 +33,14 @@ export default function ContactInfoCard() {
 
   return (
     <div style={{
-      background: 'var(--white)',
-      border: '1px solid var(--slate-200)',
+      background: '#0D1322',
+      border: '1px solid rgba(255, 255, 255, 0.08)',
       borderRadius: 'var(--radius-lg)',
-      padding: '20px',
+      padding: '24px 20px',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-      boxShadow: 'var(--shadow-sm)'
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
     }}>
       <div className="contact-info-list">
         {contactDetails.map((item, idx) => {
@@ -51,22 +51,22 @@ export default function ContactInfoCard() {
                 <IconComp size={18} />
               </div>
               <div>
-                <span className="contact-info-label">{item.label}</span>
+                <span className="contact-info-label" style={{ color: '#94A3B8' }}>{item.label}</span>
                 {item.href ? (
                   <p className="contact-info-value">
                     <a
                       href={item.href}
                       target={item.href.startsWith('http') ? '_blank' : undefined}
                       rel="noopener noreferrer"
-                      style={{ color: 'inherit', textDecoration: 'none' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary-orange)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--slate-600)')}
+                      style={{ color: '#FFFFFF', textDecoration: 'none', fontWeight: 700 }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#FF9838')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#FFFFFF')}
                     >
                       {item.value}
                     </a>
                   </p>
                 ) : (
-                  <p className="contact-info-value">{item.value}</p>
+                  <p className="contact-info-value" style={{ color: '#E2E8F0', fontWeight: 600 }}>{item.value}</p>
                 )}
               </div>
             </div>

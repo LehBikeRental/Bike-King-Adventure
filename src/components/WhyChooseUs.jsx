@@ -27,7 +27,7 @@ export default function WhyChooseUs() {
     <div className="why-choose-box" id="about-us">
       <h2 className="why-choose-title">
         WHY CHOOSE<br />
-        <span style={{ color: 'var(--slate-900)' }}>BIKER KING ADVENTURE?</span>
+        <span className="why-choose-brand-name">BIKER KING ADVENTURE?</span>
       </h2>
 
       <div className="why-choose-grid">

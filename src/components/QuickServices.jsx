@@ -1,10 +1,11 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import { Bike, Car, Compass, Building2, Snowflake, Sparkles, ArrowRight } from 'lucide-react';
 import { quickServicesData } from '../data/reviews';
 
-export default function QuickServices({ onSelectService }) {
+export default function QuickServices() {
   const getIcon = (item) => {
     switch (item.iconType) {
       case 'bike':
@@ -24,23 +25,35 @@ export default function QuickServices({ onSelectService }) {
     }
   };
 
+  const getServiceLink = (id) => {
+    switch (id) {
+      case 'bike-rental':
+        return '/bikes';
+      case 'taxi-service':
+        return '/taxis';
+      case 'tour-package':
+        return '/packages';
+      case 'hotel-availability':
+        return '/services#hotels';
+      case 'snow-leopard':
+        return '/services#snow-leopard';
+      case 'frozen-pangong':
+        return '/services#frozen-pangong';
+      default:
+        return '/services';
+    }
+  };
+
   return (
     <div className="container-custom" id="destinations">
       <div className="quick-services-bar">
         <div className="quick-services-grid">
           {quickServicesData.map((item) => (
-            <div
+            <Link
               key={item.id}
+              href={getServiceLink(item.id)}
               className="quick-service-card"
-              onClick={() => onSelectService && onSelectService(item)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onSelectService && onSelectService(item);
-                }
-              }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
               {/* Top-Left: Circular pastel icon badge */}
               <div
@@ -66,15 +79,14 @@ export default function QuickServices({ onSelectService }) {
                   backgroundColor: item.arrowBg,
                   color: item.arrowColor
                 }}
-                aria-label={`View ${item.title}`}
+                aria-label={`Explore ${item.title} in Services`}
               >
                 <ArrowRight size={17} strokeWidth={2.5} />
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
     </div>
   );
 }
-

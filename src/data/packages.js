@@ -120,5 +120,67 @@ export const packagesData = [
       { day: "Day 4", title: "Pangong Sunrise to Leh", desc: "Witness world-famous multi-colored sunrise over Pangong lake and ride back to Leh." },
       { day: "Day 5", title: "Departure", desc: "Bid farewell to Ladakh." }
     ]
+  },
+  {
+    id: "nubra-turtuk-border",
+    title: "Nubra Valley & Turtuk Border Trail",
+    duration: "6 DAYS",
+    daysCount: 6,
+    route: "Leh – Khardung La – Diskit – Hunder – Turtuk – Thang – Leh",
+    price: 23500,
+    priceDisplay: "₹23,500 / Person",
+    image: "/images/tours/tour-turtuk.jpg",
+    category: "4x4 & Bike",
+    inclusions: [
+      { name: "Meals", icon: "Utensils", text: "Breakfast & Dinner" },
+      { name: "Hotel", icon: "Building2", text: "Boutique Stays & Camps" },
+      { name: "Sightseeing", icon: "Bike", text: "Royal Enfield / 4x4 Cab" },
+      { name: "Permit", icon: "FileCheck", text: "Turtuk & Border Permits" }
+    ],
+    highlights: [
+      "Visit Turtuk — India's northernmost village with rich Balti culture",
+      "Stand at Thang Zero Point on the Indo-Pak LOC border",
+      "Double-humped camel safari in the cold desert sand dunes of Hunder",
+      "106-foot Maitreya Buddha statue overlooking Diskit Valley"
+    ],
+    itinerary: [
+      { day: "Day 1", title: "Arrival in Leh & Acclimatization", desc: "Airport pickup, transfer to hotel, medical oxygen check, and acclimatization walk." },
+      { day: "Day 2", title: "Leh Local Culture & Monasteries", desc: "Visit Shey Palace, Thiksey Gompa, and ride up to Shanti Stupa for sunset views." },
+      { day: "Day 3", title: "Leh to Nubra Valley via Khardung La", desc: "Ascend to 17,982 ft Khardung La. Descend into Nubra Valley, check into Swiss camps at Hunder." },
+      { day: "Day 4", title: "Day Excursion to Turtuk & Thang LOC", desc: "Drive along the Shyok river into Baltistan region. Explore apricot orchards of Turtuk and Thang border." },
+      { day: "Day 5", title: "Nubra Valley to Leh via Khardung La", desc: "Morning camel ride on sand dunes, visit Diskit Monastery, and return to Leh." },
+      { day: "Day 6", title: "Airport Drop & Farewell", desc: "Departure transfer to Leh Airport." }
+    ]
+  },
+  {
+    id: "winter-snow-leopard-expedition",
+    title: "Snow Leopard Winter Expedition",
+    duration: "6 DAYS",
+    daysCount: 6,
+    route: "Leh – Zingchen – Rumbak Valley – Hemis Park – Frozen Lake – Leh",
+    price: 34999,
+    priceDisplay: "₹34,999 / Person",
+    image: "/images/tours/tour-snow-leopard.jpg",
+    category: "Winter Special",
+    inclusions: [
+      { name: "Meals", icon: "Utensils", text: "All Warm Meals & Soups" },
+      { name: "Hotel", icon: "Building2", text: "Heated Homestays & Hotel" },
+      { name: "Sightseeing", icon: "Bike", text: "4x4 Heated Cab & Spotter" },
+      { name: "Permit", icon: "FileCheck", text: "Hemis Wildlife Sanctions" }
+    ],
+    highlights: [
+      "Expert local tracker spotters equipped with high-powered spotting scopes",
+      "High probability sightings in Rumbak and Tarbung valleys (Hemis National Park)",
+      "Experience sub-zero winter wonderland with frozen waterfalls and blue ice",
+      "Spot Himalayan Blue Sheep (Bharal), Golden Eagles, and Tibetan Wolves"
+    ],
+    itinerary: [
+      { day: "Day 1", title: "Arrive in Winter Leh", desc: "Experience the pristine winter chill of Leh. Hotel check-in with central heating." },
+      { day: "Day 2", title: "Leh Winter Orientation & Acclimatization", desc: "Short walk to Leh Palace, optical gear calibration, and winter briefing by lead naturalist." },
+      { day: "Day 3", title: "Drive to Zingchen & Trek to Rumbak Valley", desc: "Drive into Hemis National Park, gentle hike to Rumbak base with mountain spotters." },
+      { day: "Day 4", title: "Snow Leopard Tracking in Hemis Valley", desc: "Full-day tracking on ridgelines. Scan high rocky cliffs for elusive cats and blue sheep herds." },
+      { day: "Day 5", title: "Frozen Lake Photography Excursion", desc: "Excursion to pristine frozen river canyon, photo shoot, and evening celebratory bonfire." },
+      { day: "Day 6", title: "Departure from Leh", desc: "Airport transfer with lifetime wildlife memories." }
+    ]
   }
 ];

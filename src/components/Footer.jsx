@@ -121,9 +121,9 @@ export default function Footer({ onOpenBooking }) {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/services">Our Services</Link></li>
-              <li><Link href="/#bikes">Bike Rental</Link></li>
-              <li><Link href="/services#taxi-service">Taxi Service</Link></li>
-              <li><Link href="/#packages">Tour Packages</Link></li>
+              <li><Link href="/bikes">Bike Rental Fleet</Link></li>
+              <li><Link href="/taxis">4x4 Mountain Taxis</Link></li>
+              <li><Link href="/packages">Tour Packages</Link></li>
             </ul>
           </div>
 
@@ -133,9 +133,9 @@ export default function Footer({ onOpenBooking }) {
             <ul className="footer-links-list">
               <li><Link href="/about">Our Himalayan Story</Link></li>
               <li><Link href="/services#hotels">Hotels & Swiss Camps</Link></li>
-              <li><Link href="/services#gear-rental">Riding Gear Rental</Link></li>
+              <li><Link href="/bikes#gear-rental">Riding Gear Rental</Link></li>
               <li><Link href="/contact">Contact Us</Link></li>
-              <li><Link href="/services#winter-expeditions">Winter Expeditions</Link></li>
+              <li><Link href="/services#snow-leopard">Winter Expeditions</Link></li>
             </ul>
           </div>
 
@@ -143,9 +143,9 @@ export default function Footer({ onOpenBooking }) {
           <div>
             <h4 className="footer-col-title">OUR SERVICES</h4>
             <ul className="footer-links-list">
-              <li><Link href="/#bikes">Royal Enfield Bike Rental</Link></li>
-              <li><Link href="/services#taxi-service">Taxi & 4x4 Leh Ladakh</Link></li>
-              <li><Link href="/#packages">Motorcycle Tour Packages</Link></li>
+              <li><Link href="/bikes">Royal Enfield Bike Rental</Link></li>
+              <li><Link href="/taxis">Taxi & 4x4 Leh Ladakh</Link></li>
+              <li><Link href="/packages">Motorcycle Tour Packages</Link></li>
               <li><Link href="/services#hotels">Hotel & Resort Booking</Link></li>
               <li><Link href="/services#snow-leopard">Snow Leopard Winter Tour</Link></li>
               <li><Link href="/services#frozen-pangong">Frozen Pangong Lake Drive</Link></li>

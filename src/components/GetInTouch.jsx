@@ -25,25 +25,25 @@ export default function GetInTouch() {
   return (
     <div className="get-in-touch-box" id="contact">
       <div style={{ marginBottom: '14px' }}>
-        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: 'var(--slate-900)', textTransform: 'uppercase' }}>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, color: '#FFFFFF', textTransform: 'uppercase' }}>
           GET IN TOUCH
         </h3>
-        <p style={{ fontSize: '0.85rem', color: 'var(--slate-500)' }}>
+        <p style={{ fontSize: '0.85rem', color: '#94A3B8' }}>
           We'd love to hear from you!
         </p>
       </div>
 
       {submitted ? (
         <div style={{
-          backgroundColor: 'var(--primary-orange-light)',
-          border: '1px solid var(--primary-orange-border)',
+          backgroundColor: 'rgba(255, 101, 0, 0.1)',
+          border: '1px solid rgba(255, 101, 0, 0.3)',
           borderRadius: 'var(--radius-md)',
           padding: '20px',
           textAlign: 'center'
         }}>
           <CheckCircle2 size={32} style={{ color: 'var(--primary-orange)', margin: '0 auto 8px auto' }} />
-          <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--slate-900)' }}>Message Sent Successfully!</h4>
-          <p style={{ fontSize: '0.85rem', color: 'var(--slate-600)', marginTop: '4px' }}>
+          <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#FFFFFF' }}>Message Sent Successfully!</h4>
+          <p style={{ fontSize: '0.85rem', color: '#CBD5E1', marginTop: '4px' }}>
             Our Leh team is reviewing your inquiry. We have also opened WhatsApp to assist you immediately.
           </p>
           <button

@@ -2,97 +2,125 @@ export const reviewsData = [
   {
     id: 1,
     name: "Rohit Sharma",
-    location: "Delhi",
+    location: "New Delhi",
+    trip: "7D/6N Leh-Pangong Expedition",
     rating: 5,
     avatar: "/images/avatars/rohit.jpg",
-    review: "The Ladakh trip was beyond amazing! Breathtaking views, great bikes and awesome crew. The Himalayan 450 performed like a beast across Khardung La."
+    verified: true,
+    review: "The Himalayan 450 performed like a beast across Khardung La! Not a single issue on the highest passes. Stanzin and his team provided backup support and warm hospitality. Best rental experience in Leh by far!"
   },
   {
     id: 2,
     name: "Ankit Verma",
     location: "Mumbai",
+    trip: "Nubra Valley & Tso Moriri",
     rating: 5,
     avatar: "/images/avatars/ankit.jpg",
-    review: "Well organized, safe and full of adventure. Can't wait for my next ride with Biker King Adventure! The mechanical support team was always right behind us."
+    verified: true,
+    review: "Super clean bikes with fresh CEAT tyres and crisp front brakes. They even arranged our Inner Line Permits beforehand so we didn't waste a single hour in Leh DC office. 10/10 recommend Biker King!"
   },
   {
     id: 3,
-    name: "Siddharth M.",
-    location: "Bangalore",
+    name: "Vikramjit Singh",
+    location: "Chandigarh",
+    trip: "Solo Zanskar & Khardung La",
     rating: 5,
     avatar: "/images/avatars/rohit.jpg",
-    review: "Best experience of my life. Highly recommended for every biking enthusiast. Seamless permit processing, clean hotel stays, and top condition bikes."
+    verified: true,
+    review: "Took the Scram 411 for 5 days. Agile, punchy and well-maintained. The 24/7 road assistance team checked in on us daily via satellite call when we reached remote areas. Genuine local brothers!"
   },
   {
     id: 4,
     name: "Pooja Hegde",
     location: "Pune",
+    trip: "Couples Tour on Classic 350",
     rating: 5,
     avatar: "/images/avatars/ankit.jpg",
-    review: "Rented 3 bikes for our group tour to Nubra and Pangong. Not a single puncture or mechanical glitch throughout the 800km ride. Genuine local Leh hosts!"
+    verified: true,
+    review: "Rented 2 Classic 350s for our group. Very comfortable posture for valley rides and village monasteries. Reasonable security deposit refunded instantly upon bike return. Trustworthy and polite team."
+  },
+  {
+    id: 5,
+    name: "Karthik Raja",
+    location: "Bengaluru",
+    trip: "Ultimate Ladakh 10D Circuit",
+    rating: 5,
+    avatar: "/images/avatars/rohit.jpg",
+    verified: true,
+    review: "From luggage carriers to jerry cans and high-quality helmets, everything was provided in mint condition. The mechanical inspection before handoff was thorough. Biker King is the real deal in Leh."
+  },
+  {
+    id: 6,
+    name: "Aditi Sen",
+    location: "Kolkata",
+    trip: "Winter Pangong & Chadar Expedition",
+    rating: 5,
+    avatar: "/images/avatars/ankit.jpg",
+    verified: true,
+    review: "Did the winter frozen lake trip with their 4x4 taxi service. Our driver Dorje was extremely skilled in sub-zero black ice driving and showed us secret photography spots. Unforgettable memories!"
   }
 ];
 
 export const quickServicesData = [
   {
     id: "bike-rental",
-    title: "Bike Rental",
-    desc: "Premium bikes for every adventure",
+    title: "Bike Rentals",
+    desc: "Royal Enfield 450 & 411 fleet tuned for high mountain passes",
     iconType: "bike",
-    badgeBg: "#E0F2FE",
-    badgeColor: "#0284C7",
-    arrowBg: "#E0F2FE",
-    arrowColor: "#0284C7"
-  },
-  {
-    id: "taxi-service",
-    title: "Taxi Service Leh Ladakh",
-    desc: "Comfortable & safe taxi service",
-    iconType: "car",
-    badgeBg: "#FFEDD5",
+    badgeBg: "rgba(234, 88, 12, 0.12)",
     badgeColor: "#EA580C",
-    arrowBg: "#FFEDD5",
+    arrowBg: "rgba(234, 88, 12, 0.12)",
     arrowColor: "#EA580C"
   },
   {
+    id: "taxi-service",
+    title: "4x4 Mountain Taxis",
+    desc: "Innova Crysta, Scorpio 4x4 & Tempo Traveler with local drivers",
+    iconType: "car",
+    badgeBg: "rgba(37, 99, 235, 0.12)",
+    badgeColor: "#2563EB",
+    arrowBg: "rgba(37, 99, 235, 0.12)",
+    arrowColor: "#2563EB"
+  },
+  {
     id: "tour-package",
-    title: "Tour Package",
-    desc: "Customized packages for solo, couple & group",
+    title: "Tour Packages",
+    desc: "All-inclusive guided expeditions for solo, couples & groups",
     iconType: "traveler",
-    badgeBg: "#DCFCE7",
+    badgeBg: "rgba(5, 150, 105, 0.12)",
     badgeColor: "#059669",
-    arrowBg: "#DCFCE7",
+    arrowBg: "rgba(5, 150, 105, 0.12)",
     arrowColor: "#059669"
   },
   {
     id: "hotel-availability",
-    title: "Hotel Availability",
-    desc: "Best hotels & homestays across Ladakh",
+    title: "Camps & Stays",
+    desc: "Luxury Swiss domes at Pangong & heritage boutique hotels",
     iconType: "hotel",
-    badgeBg: "#EDE9FE",
+    badgeBg: "rgba(124, 58, 237, 0.12)",
     badgeColor: "#7C3AED",
-    arrowBg: "#EDE9FE",
+    arrowBg: "rgba(124, 58, 237, 0.12)",
     arrowColor: "#7C3AED"
   },
   {
     id: "snow-leopard",
-    title: "Snow Leopard in Winter",
-    desc: "Witness the majestic snow leopard",
+    title: "Snow Leopard Trek",
+    desc: "Expert winter wildlife tracking expeditions in Hemis Park",
     iconType: "snow-leopard",
-    badgeBg: "#CFFAFE",
+    badgeBg: "rgba(8, 145, 178, 0.12)",
     badgeColor: "#0891B2",
-    arrowBg: "#CFFAFE",
+    arrowBg: "rgba(8, 145, 178, 0.12)",
     arrowColor: "#0891B2"
   },
   {
     id: "frozen-pangong",
-    title: "Frozen Pangong Lake in Winter",
-    desc: "Experience the magical frozen lake",
+    title: "Frozen Pangong",
+    desc: "Sub-zero ice expeditions and winter photography tours",
     iconType: "frozen-lake",
-    badgeBg: "#DBEAFE",
-    badgeColor: "#2563EB",
-    arrowBg: "#DBEAFE",
-    arrowColor: "#2563EB"
+    badgeBg: "rgba(2, 132, 199, 0.12)",
+    badgeColor: "#0284C7",
+    arrowBg: "rgba(2, 132, 199, 0.12)",
+    arrowColor: "#0284C7"
   }
 ];
 

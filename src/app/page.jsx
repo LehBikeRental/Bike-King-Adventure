@@ -5,17 +5,15 @@ import TopBar from '../components/TopBar';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import QuickServices from '../components/QuickServices';
-import BikeFleet from '../components/BikeFleet';
+import BikeAdvertisement from '../components/BikeAdvertisement';
 import TourPackages from '../components/TourPackages';
-import WhyChooseUs from '../components/WhyChooseUs';
 import Reviews from '../components/Reviews';
-import GetInTouch from '../components/GetInTouch';
 import CtaBanner from '../components/CtaBanner';
-import ContactInfoCard from '../components/ContactInfoCard';
 import Footer from '../components/Footer';
 import BookingModal from '../components/BookingModal';
 import PackageModal from '../components/PackageModal';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
+import MobileStickyBar from '../components/MobileStickyBar';
 
 export default function Home() {
   const [bookingModalOpen, setBookingModalOpen] = useState(false);
@@ -42,18 +40,11 @@ export default function Home() {
     setBookingModalOpen(true);
   };
 
-  const handleScrollToContact = () => {
-    const contactElem = document.getElementById('contact');
-    if (contactElem) {
-      contactElem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <main className="page-main-layout">
       
-      {/* 1. Top Contact & Social Bar */}
-      <TopBar />
+      {/* 1. Top Announcement Bar */}
+      <TopBar onOpenBooking={() => handleOpenBooking(null, 'bike')} />
 
       {/* 2. Main Sticky Navigation */}
       <Navbar onOpenBooking={() => handleOpenBooking(null, 'bike')} />
@@ -61,18 +52,15 @@ export default function Home() {
       {/* 3. Hero Section */}
       <Hero
         onOpenBooking={() => handleOpenBooking(null, 'bike')}
-        onScrollToContact={handleScrollToContact}
       />
 
       {/* 4. Floating Quick Services Bar */}
-      <QuickServices
-        onSelectService={(service) => handleOpenBooking(service, 'service')}
-      />
+      <QuickServices />
 
-      {/* 5. Bike Rental Fleet Showcase */}
-      <BikeFleet
+      {/* 5. Featured Bike Rental Advertisement Banner */}
+      <BikeAdvertisement
         onSelectBike={(bike) => handleOpenBooking(bike, 'bike')}
-        onOpenAllBikes={() => handleOpenBooking(null, 'bike')}
+        onOpenBooking={() => handleOpenBooking(null, 'bike')}
       />
 
       {/* 6. Popular Tour Packages Showcase */}
@@ -81,43 +69,26 @@ export default function Home() {
         onOpenAllPackages={() => handleOpenBooking(null, 'package')}
       />
 
-      {/* 7. Lower Multi-Section Experience Grid */}
-      <section className="container-custom" style={{ paddingTop: '30px', paddingBottom: '60px' }}>
-        
-        {/* Row 1: Why Choose Us (Left) & Reviews (Right) */}
-        <div className="lower-sections-container">
-          <WhyChooseUs />
-          <Reviews />
-        </div>
-
-        {/* Row 2: Get In Touch (Left) & Ready For Adventure Banner + Contact Info (Right) */}
-        <div className="bottom-interactive-grid">
-          
-          {/* Left: Contact Form */}
-          <GetInTouch />
-
-          {/* Right: Adventure CTA Banner + Contact Details Card */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '16px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-              <CtaBanner
-                onOpenBooking={() => handleOpenBooking(null, 'bike')}
-                onScrollToContact={handleScrollToContact}
-              />
-              <ContactInfoCard />
-            </div>
-          </div>
-
-        </div>
-
+      {/* 7. Verified Rider Reviews & Social Proof */}
+      <section className="container-custom" style={{ paddingTop: '10px', paddingBottom: '32px' }}>
+        <Reviews />
       </section>
 
-      {/* 8. Footer */}
+      {/* 8. Full-Width Adventure Billboard CTA Banner */}
+      <section className="container-custom" style={{ paddingBottom: '60px' }}>
+        <CtaBanner onOpenBooking={() => handleOpenBooking(null, 'bike')} />
+      </section>
+
+      {/* 9. Footer */}
       <Footer onOpenBooking={() => handleOpenBooking(null, 'bike')} />
 
-      {/* 9. Floating WhatsApp Action Button */}
+      {/* 10. Floating WhatsApp Action Button */}
       <FloatingWhatsApp />
 
-      {/* 10. Interactive Dynamic Booking Modal */}
+      {/* 11. Mobile Sticky Bottom Quick-Action Bar */}
+      <MobileStickyBar onOpenBooking={() => handleOpenBooking(null, 'bike')} />
+
+      {/* 12. Interactive Dynamic Booking Modal */}
       <BookingModal
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}
@@ -125,7 +96,7 @@ export default function Home() {
         initialType={bookingType}
       />
 
-      {/* 11. Interactive Tour Package Details Modal */}
+      {/* 13. Interactive Tour Package Details Modal */}
       <PackageModal
         pkg={selectedPackage}
         isOpen={packageModalOpen}

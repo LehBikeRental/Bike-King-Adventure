@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { X, Check, Calendar, User, Phone, MapPin, Bike, ArrowRight } from 'lucide-react';
 import { bikesData } from '../data/bikes';
 import { packagesData } from '../data/packages';
+import { supabase } from '../lib/supabase';
 
 export default function BookingModal({ isOpen, onClose, initialItem, initialType = 'bike' }) {
   const [bookingType, setBookingType] = useState(initialType);
@@ -45,19 +46,52 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
     return 2000 * days;
   };
 
-  const handleBookingSubmit = (e) => {
+  const handleBookingSubmit = async (e) => {
     e.preventDefault();
+
+    const estimatedPrice = calculateEstimate();
+    const itemName = bookingType === 'bike' 
+      ? currentBike.name 
+      : bookingType === 'package' 
+        ? currentPackage.title 
+        : serviceType;
+    const itemId = bookingType === 'bike' ? currentBike.id : bookingType === 'package' ? currentPackage.id : null;
+
+    // Save into Supabase Database
+    try {
+      if (supabase) {
+        await supabase.from('bookings').insert([
+          {
+            booking_type: bookingType,
+            item_name: itemName,
+            item_id: itemId,
+            days: days,
+            riders_count: ridersCount,
+            start_date: startDate || 'Flexible',
+            pickup_location: pickupLoc,
+            customer_name: fullName || 'Valued Guest',
+            phone: phone || 'Direct WhatsApp',
+            estimated_price: estimatedPrice,
+            status: 'pending',
+            created_at: new Date().toISOString()
+          }
+        ]);
+      }
+    } catch (err) {
+      console.warn('Booking record save error:', err);
+    }
+
     let text = `*New Reservation Request - Biker King Adventure*%0A%0A`;
     text += `*Type:* ${bookingType.toUpperCase()}%0A`;
     if (bookingType === 'bike') {
       text += `*Bike:* ${currentBike.name} (${currentBike.specs})%0A`;
       text += `*Duration:* ${days} Day(s)%0A`;
       text += `*Bikes Count:* ${ridersCount}%0A`;
-      text += `*Estimated Total:* ₹${calculateEstimate().toLocaleString('en-IN')}%0A`;
+      text += `*Estimated Total:* ₹${estimatedPrice.toLocaleString('en-IN')}%0A`;
     } else if (bookingType === 'package') {
       text += `*Package:* ${currentPackage.title} (${currentPackage.duration})%0A`;
       text += `*Persons:* ${ridersCount}%0A`;
-      text += `*Package Total:* ₹${calculateEstimate().toLocaleString('en-IN')}%0A`;
+      text += `*Package Total:* ₹${estimatedPrice.toLocaleString('en-IN')}%0A`;
     } else {
       text += `*Service:* ${serviceType}%0A`;
     }
@@ -72,22 +106,23 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-dialog" style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', color: '#0F172A', boxShadow: '0 20px 50px rgba(0,0,0,0.2)' }} onClick={(e) => e.stopPropagation()}>
         
         {/* Modal Header */}
         <div style={{
-          background: 'linear-gradient(135deg, var(--slate-950) 0%, var(--slate-900) 100%)',
-          color: 'var(--white)',
+          background: '#F8FAFC',
+          color: '#0F172A',
           padding: '20px 24px',
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          borderBottom: '1px solid #E2E8F0'
         }}>
           <div>
             <span style={{ fontSize: '0.6875rem', fontWeight: 800, color: 'var(--primary-orange)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
               Biker King Adventure • Instant Reservation
             </span>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', marginTop: '2px' }}>
+            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900, textTransform: 'uppercase', marginTop: '2px', color: '#0F172A' }}>
               Book Your Leh Ladakh Ride
             </h3>
           </div>
@@ -95,9 +130,9 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
             onClick={onClose}
             aria-label="Close modal"
             style={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: '#EDF2F7',
               border: 'none',
-              color: 'var(--white)',
+              color: '#0F172A',
               borderRadius: 'var(--radius-full)',
               width: '32px',
               height: '32px',
@@ -275,8 +310,8 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
 
             {/* Estimated Price Card */}
             <div style={{
-              background: 'var(--slate-50)',
-              border: '1px solid var(--slate-200)',
+              background: '#F8FAFC',
+              border: '1px solid #E2E8F0',
               borderRadius: 'var(--radius-md)',
               padding: '14px 16px',
               display: 'flex',
@@ -284,14 +319,14 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               justifyContent: 'space-between'
             }}>
               <div>
-                <span style={{ fontSize: '0.8rem', color: 'var(--slate-500)', textTransform: 'uppercase', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.8rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700 }}>
                   Estimated Booking Amount
                 </span>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900, color: 'var(--slate-900)' }}>
+                <p style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', fontWeight: 900, color: '#EA580C' }}>
                   ₹{calculateEstimate().toLocaleString('en-IN')}
                 </p>
               </div>
-              <span style={{ fontSize: '0.775rem', color: '#059669', background: '#D1FAE5', padding: '4px 8px', borderRadius: '4px', fontWeight: 700 }}>
+              <span style={{ fontSize: '0.775rem', color: '#059669', background: 'rgba(16, 185, 129, 0.12)', padding: '4px 8px', borderRadius: '4px', fontWeight: 700 }}>
                 ✓ Zero Advance Fee
               </span>
             </div>
@@ -305,7 +340,7 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               CONFIRM & INQUIRE ON WHATSAPP <ArrowRight size={16} />
             </button>
 
-            <p style={{ fontSize: '0.8rem', color: 'var(--slate-500)', textAlign: 'center' }}>
+            <p style={{ fontSize: '0.8rem', color: '#64748B', textAlign: 'center' }}>
               🔒 Instant confirmation with Biker King office in Malpax Complex, Leh.
             </p>
 
