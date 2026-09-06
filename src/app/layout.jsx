@@ -2,10 +2,50 @@ import './globals.css';
 
 export const metadata = {
   metadataBase: new URL('https://bikerkingadventure.com'),
-  title: 'Biker King Adventure | Leh Ladakh Motorbike Rentals, Tours & Expeditions',
+  title: {
+    default: 'Biker King Adventure | Leh Ladakh Motorbike Rentals, Tours & Expeditions',
+    template: '%s | Biker King Adventure'
+  },
   description: 'Conquer the high Himalayan passes with Biker King Adventure. Premier Royal Enfield bike rentals (Himalayan 450, 411, Scram, Meteor), Leh Ladakh 4x4 taxi service, customized tour packages, snow leopard winter tracking, and hotel stays in Leh.',
-  keywords: 'Biker King Adventure, Leh Ladakh Bike Rental, Himalayan 450 rental Ladakh, Ladakh motorcycle tours, Leh taxi service, Pangong lake bike trip, Khardung La ride, Leh Ladakh tour packages, Snow leopard winter expedition Ladakh',
-  authors: [{ name: 'Biker King Adventure' }],
+  keywords: [
+    'Biker King Adventure',
+    'Leh Ladakh Bike Rental',
+    'Royal Enfield Himalayan 450 rental Ladakh',
+    'Ladakh motorcycle tours',
+    'Leh taxi service',
+    'Pangong lake bike trip',
+    'Khardung La ride',
+    'Leh Ladakh tour packages',
+    'Snow leopard winter expedition Ladakh',
+    'Himalayan bike expedition Leh',
+    'Motorcycle rental Leh market'
+  ],
+  authors: [{ name: 'Biker King Adventure', url: 'https://bikerkingadventure.com' }],
+  creator: 'Biker King Adventure',
+  publisher: 'Biker King Adventure',
+  alternates: {
+    canonical: 'https://bikerkingadventure.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
   openGraph: {
     title: 'Biker King Adventure | Leh Ladakh Bike Rentals & Tours',
     description: 'Where Every Turn Is An Adventure. Explore Leh Ladakh with premium bikes, expert guides and unforgettable memories.',
@@ -16,11 +56,17 @@ export const metadata = {
         url: '/images/hero-pangong.webp',
         width: 1200,
         height: 630,
-        alt: 'Biker King Adventure Leh Ladakh'
+        alt: 'Biker King Adventure Leh Ladakh Motorbike Expedition'
       }
     ],
     locale: 'en_IN',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Biker King Adventure | Leh Ladakh Bike Rentals & Expeditions',
+    description: 'Premier Royal Enfield bike rentals, 4x4 taxis, and guided tours across Leh Ladakh.',
+    images: ['/images/hero-pangong.webp'],
   },
 };
 
@@ -31,11 +77,67 @@ export const viewport = {
   themeColor: '#EA580C',
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['TravelAgency', 'AutoRental'],
+      '@id': 'https://bikerkingadventure.com/#organization',
+      name: 'Biker King Adventure',
+      url: 'https://bikerkingadventure.com',
+      logo: 'https://bikerkingadventure.com/favicon.svg',
+      image: 'https://bikerkingadventure.com/images/hero-pangong.webp',
+      description: 'Premier Royal Enfield motorbike rentals, 4x4 mountain taxis, and guided expeditions across Leh Ladakh.',
+      telephone: '+91-9797948265',
+      email: 'bikerkingadventure98@gmail.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Malpax complex, Leh Main Market',
+        addressLocality: 'Leh',
+        addressRegion: 'Ladakh',
+        postalCode: '194101',
+        addressCountry: 'IN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 34.1526,
+        longitude: 77.5771,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ],
+          opens: '07:00',
+          closes: '22:00',
+        },
+      ],
+      priceRange: '₹₹',
+      sameAs: [
+        'https://www.instagram.com/ridewithbk?igsi=cGFxMWUxbDh3dGRx&utm_source=qr',
+      ],
+    },
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body>
         {children}

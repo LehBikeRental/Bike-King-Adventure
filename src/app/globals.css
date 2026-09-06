@@ -46,6 +46,8 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -53,7 +55,9 @@ body {
   background-color: var(--white);
   color: var(--slate-800);
   line-height: 1.5;
+  max-width: 100%;
   overflow-x: hidden;
+  position: relative;
 }
 
 /* Layout Utilities */
@@ -62,9 +66,16 @@ body {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
   box-sizing: border-box;
+}
+
+@media (min-width: 480px) {
+  .container-custom {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 #bikes,
@@ -252,14 +263,14 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px 16px;
   width: 100%;
 }
 
 @media (max-width: 768px) {
   .topbar-contact-wrap {
     justify-content: center;
-    gap: 10px 18px;
+    gap: 8px 14px;
     text-align: center;
   }
 }
@@ -273,6 +284,8 @@ body {
   font-size: 0.85rem;
   font-weight: 500;
   transition: color 0.2s;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .topbar-item:hover {
@@ -1332,27 +1345,40 @@ body {
 .inner-hero-badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: rgba(234, 88, 12, 0.15);
   border: 1px solid rgba(234, 88, 12, 0.4);
   color: #ff9858;
-  font-size: 0.825rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 6px 14px;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
   border-radius: var(--radius-full);
   margin-bottom: 16px;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .inner-hero-badge {
+    font-size: 0.825rem;
+    letter-spacing: 0.1em;
+    padding: 6px 14px;
+  }
 }
 
 .inner-hero-title {
   font-family: var(--font-display);
-  font-size: 2.25rem;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
   line-height: 1.15;
   color: var(--white);
+  word-break: break-word;
 }
 
 @media (min-width: 768px) {
@@ -1538,11 +1564,12 @@ body {
 /* Quick Services Overview Anchor Grid */
 .services-quick-anchors {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 10px;
+  width: 100%;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 480px) {
   .services-quick-anchors {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1571,6 +1598,9 @@ body {
   gap: 8px;
   transition: all 0.22s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .quick-service-anchor:hover {
@@ -1586,6 +1616,7 @@ body {
   align-items: center;
   gap: 10px;
   min-width: 0;
+  flex: 1;
 }
 
 .quick-service-anchor-icon {
@@ -1604,6 +1635,13 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 0.825rem;
+}
+
+@media (min-width: 640px) {
+  .quick-service-anchor-text {
+    font-size: 0.875rem;
+  }
 }
 
 /* Service Detail Cards - 4 Rows and 2 Columns Layout */
@@ -1681,7 +1719,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(6px);
   color: var(--primary-orange);
-  font-size: 0.775rem;
+  font-size: 0.725rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1690,6 +1728,10 @@ body {
   border: 1px solid rgba(234, 88, 12, 0.25);
   z-index: 5;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  max-width: calc(100% - 28px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .service-card-body {
@@ -1908,4 +1950,49 @@ body {
   color: var(--slate-600);
   line-height: 1.5;
   margin: 0;
+}
+
+/* Form Responsive Grid Utility */
+.form-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .form-grid-2col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Services Custom Group Banner */
+.services-custom-banner {
+  background: linear-gradient(135deg, #0b132b 0%, #1c2541 100%);
+  border-radius: 16px;
+  padding: 32px 18px;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  margin-top: 40px;
+  border: 1px solid rgba(234, 88, 12, 0.3);
+  box-shadow: var(--shadow-xl);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .services-custom-banner {
+    padding: 40px 32px;
+  }
+}
+
+.services-custom-banner h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 4vw, 1.75rem);
+  font-weight: 900;
+  margin: 0;
+  word-break: break-word;
 }

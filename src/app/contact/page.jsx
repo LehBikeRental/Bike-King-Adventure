@@ -238,34 +238,33 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-                  <div className="form-group">
-                    <label className="form-label">Your Name *</label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="e.g. Rahul Sharma"
-                      className="form-input"
-                      value={formData.name}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">Phone / WhatsApp Number *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      required
-                      placeholder="e.g. 9876543210"
-                      className="form-input"
-                      value={formData.phone}
-                      onChange={handleChange}
-                    />
-                  </div>
+                <div className="form-group">
+                  <label className="form-label">Your Name *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="e.g. Rahul Sharma"
+                    className="form-input"
+                    value={formData.name}
+                    onChange={handleChange}
+                  />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+                <div className="form-group">
+                  <label className="form-label">Phone / WhatsApp Number *</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    placeholder="e.g. 9876543210"
+                    className="form-input"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-grid-2col">
                   <div className="form-group">
                     <label className="form-label">Email Address</label>
                     <input

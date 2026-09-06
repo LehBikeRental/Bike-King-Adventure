@@ -300,21 +300,8 @@ export default function ServicesPage() {
         </div>
 
         {/* Custom Group Booking Banner */}
-        <div style={{
-          background: 'linear-gradient(135deg, #0b132b 0%, #1c2541 100%)',
-          borderRadius: '16px',
-          padding: '40px 32px',
-          color: 'var(--white)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          textAlign: 'center',
-          gap: '16px',
-          marginTop: '40px',
-          border: '1px solid rgba(234, 88, 12, 0.3)',
-          boxShadow: 'var(--shadow-xl)'
-        }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', fontWeight: 900, margin: 0 }}>
+        <div className="services-custom-banner">
+          <h2>
             NEED A CUSTOM HIMALAYAN ITINERARY FOR YOUR GROUP?
           </h2>
           <p style={{ color: 'var(--slate-300)', maxWidth: '640px', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>

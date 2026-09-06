@@ -31,11 +31,11 @@ export default function Navbar({ onOpenBooking }) {
 
   return (
     <header className="site-header">
-      <div className="container-custom" style={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="container-custom" style={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
         
         {/* Brand Logo with Compass Emblem */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <BrandLogo size={56} showText={true} />
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', minWidth: 0, flexShrink: 1 }}>
+          <BrandLogo size={48} showText={true} />
         </Link>
 
         {/* Desktop Nav Links */}
@@ -52,11 +52,11 @@ export default function Navbar({ onOpenBooking }) {
         </nav>
 
         {/* Right CTA Button */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}>
           <button
             onClick={() => onOpenBooking && onOpenBooking()}
             className="btn-primary-orange"
-            style={{ padding: '10px 22px', fontSize: '0.8125rem' }}
+            style={{ padding: '8px 18px', fontSize: '0.8125rem' }}
           >
             BOOK NOW
           </button>

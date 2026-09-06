@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <clipPath id="innerCircle">
+      <circle cx="64" cy="64" r="54" />
+    </clipPath>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="60%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#BAE6FD" />
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EA580C" />
+      <stop offset="100%" stop-color="#C2410C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Dark Compass Ring -->
+  <circle cx="64" cy="64" r="62" fill="#090D16" />
+  <!-- Vibrant Orange Brand Ring -->
+  <circle cx="64" cy="64" r="57" fill="none" stroke="url(#ringGrad)" stroke-width="3.5" />
+
+  <!-- Compass Star Points -->
+  <polygon points="64,2 68,14 64,12 60,14" fill="#EA580C" />
+  <polygon points="64,126 68,114 64,116 60,114" fill="#EA580C" />
+  <polygon points="2,64 14,68 12,64 14,60" fill="#EA580C" />
+  <polygon points="126,64 114,68 116,64 114,60" fill="#EA580C" />
+
+  <!-- Inner Clipped Himalayan Scenery -->
+  <g clip-path="url(#innerCircle)">
+    <!-- Sky -->
+    <rect x="0" y="0" width="128" height="128" fill="url(#skyGrad)" />
+
+    <!-- Distant Dark Mountain Ranges -->
+    <polygon points="10,80 38,40 68,75 92,36 122,80 128,128 0,128" fill="#0F172A" />
+
+    <!-- Mountain Snowcaps -->
+    <polygon points="38,40 28,54 36,50 38,56 46,48 48,54" fill="#FFFFFF" />
+    <polygon points="92,36 82,50 88,46 92,52 100,44 104,50" fill="#FFFFFF" />
+
+    <!-- Central High Peak -->
+    <polygon points="24,84 64,28 104,84" fill="#090D16" />
+    <polygon points="64,28 52,48 60,44 64,52 70,42 78,48" fill="#FFFFFF" />
+
+    <!-- Curving Himalayan Highway Pass -->
+    <path d="M 16,84 Q 50,68 84,78 T 116,84 L 128,128 L 0,128 Z" fill="#E2E8F0" />
+    <path d="M 16,84 Q 50,68 84,78 T 116,84" stroke="#090D16" stroke-width="2.5" fill="none" />
+    <path d="M 24,96 Q 60,78 94,88" stroke="#F97316" stroke-width="2" stroke-dasharray="3 3" fill="none" />
+
+    <!-- Motorcycle Rider Silhouette -->
+    <g transform="translate(48, 54) scale(0.38)">
+      <!-- Helmet -->
+      <circle cx="50" cy="20" r="11" fill="#FFFFFF" stroke="#090D16" stroke-width="3" />
+      <path d="M 42 30 Q 55 24 64 36 L 56 60 L 40 50 Z" fill="#FFFFFF" stroke="#090D16" stroke-width="3" />
+      <!-- Bike Body -->
+      <path d="M 25 50 L 52 44 L 68 55 L 75 70 L 20 70 Z" fill="#090D16" />
+      <!-- Front & Rear Wheels -->
+      <circle cx="22" cy="72" r="14" fill="#090D16" stroke="#FFFFFF" stroke-width="4" />
+      <circle cx="82" cy="72" r="14" fill="#090D16" stroke="#FFFFFF" stroke-width="4" />
+      <!-- Panniers / Touring Box -->
+      <rect x="76" y="44" width="20" height="20" rx="3" fill="#EA580C" stroke="#090D16" stroke-width="3" />
+    </g>
+
+    <!-- Lower Banner -->
+    <rect x="20" y="104" width="88" height="20" rx="4" fill="#090D16" />
+    <text x="64" y="118" text-anchor="middle" fill="#EA580C" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="900" letter-spacing="1">BIKER KING</text>
+  </g>
+</svg>
