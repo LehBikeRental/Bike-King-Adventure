@@ -1,20 +1,56 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Instagram, Facebook, Youtube, MessageCircle, Heart, CheckCircle } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import { supabase } from '../lib/supabase';
+import { useContactInfo } from '../lib/useContactInfo';
+
+const DEFAULT_CONTENT = {
+  tagline: 'Your trusted adventure partner in Leh Ladakh. Ride more, worry less!',
+  newsletterTitle: 'NEWSLETTER',
+  newsletterSubtitle: 'Subscribe to get updates & exclusive offers.',
+  copyrightText: 'Biker King Adventure. All Rights Reserved.',
+};
 
 export default function Footer({ onOpenBooking }) {
   const [subscribed, setSubscribed] = useState(false);
   const [email, setEmail] = useState('');
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const contact = useContactInfo();
 
-  const handleSubscribe = (e) => {
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('home_content')
+          .select('data')
+          .eq('section_key', 'footer')
+          .single();
+        if (!error && isMounted && data?.data) {
+          setContent({ ...DEFAULT_CONTENT, ...data.data });
+        }
+      } catch (err) {
+        console.warn('Falling back to default footer content:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  const handleSubscribe = async (e) => {
     e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
+    if (!email) return;
+
+    try {
+      await supabase.from('newsletter_subscribers').insert([{ email }]);
+    } catch (err) {
+      console.warn('Newsletter subscription save error:', err);
     }
+
+    setSubscribed(true);
+    setEmail('');
   };
 
   return (
@@ -30,14 +66,14 @@ export default function Footer({ onOpenBooking }) {
             </div>
 
             <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', lineHeight: 1.5, marginBottom: '16px', maxWidth: '240px' }}>
-              Your trusted adventure partner in Leh Ladakh. Ride more, worry less!
+              {content.tagline}
             </p>
 
             {/* Social Icons */}
             <div style={{ display: 'flex', gap: '10px' }}>
-              <a 
-                href="https://www.instagram.com/ridewithbk?igsi=cGFxMWUxbDh3dGRx&utm_source=qr" 
-                target="_blank" 
+              <a
+                href={contact.instagramUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
                 style={{
@@ -54,9 +90,9 @@ export default function Footer({ onOpenBooking }) {
               >
                 <Instagram size={14} />
               </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
+              <a
+                href={contact.facebookUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
                 style={{
@@ -73,9 +109,9 @@ export default function Footer({ onOpenBooking }) {
               >
                 <Facebook size={14} />
               </a>
-              <a 
-                href="https://youtube.com" 
-                target="_blank" 
+              <a
+                href={contact.youtubeUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"
                 style={{
@@ -92,9 +128,9 @@ export default function Footer({ onOpenBooking }) {
               >
                 <Youtube size={14} />
               </a>
-              <a 
-                href="https://wa.me/919797948265" 
-                target="_blank" 
+              <a
+                href={`https://wa.me/${contact.whatsappNumber}`}
+                target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
                 style={{
@@ -154,9 +190,9 @@ export default function Footer({ onOpenBooking }) {
 
           {/* Column 5: Newsletter */}
           <div>
-            <h4 className="footer-col-title">NEWSLETTER</h4>
+            <h4 className="footer-col-title">{content.newsletterTitle}</h4>
             <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', marginBottom: '12px' }}>
-              Subscribe to get updates & exclusive offers.
+              {content.newsletterSubtitle}
             </p>
 
             {subscribed ? (
@@ -190,7 +226,7 @@ export default function Footer({ onOpenBooking }) {
         {/* Footer Bottom Bar */}
         <div className="footer-bottom-bar">
           <div>
-            © {new Date().getFullYear()} Biker King Adventure. All Rights Reserved.
+            © {new Date().getFullYear()} {content.copyrightText}
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
             <a href="#terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms & Conditions</a>

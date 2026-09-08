@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ShieldCheck, Check, MessageCircle } from 'lucide-react';
+import { ShieldCheck, Check } from 'lucide-react';
 
 export default function RidingGearSection({ onOpenBooking }) {
   const gearItems = [
@@ -29,15 +29,6 @@ export default function RidingGearSection({ onOpenBooking }) {
     const item = gearItems.find(g => g.id === id);
     return sum + (item ? item.dailyRate : 0);
   }, 0);
-
-  const selectedItemNames = selectedGear.map(id => {
-    const item = gearItems.find(g => g.id === id);
-    return item ? item.name.split(' ')[0] : '';
-  }).join(', ');
-
-  const whatsappGearText = encodeURIComponent(
-    `Hi Biker King Adventure! I want to reserve riding gear for my Ladakh trip:\n• Selected Items: ${selectedItemNames}\n• Daily Total: ₹${calculatedGearTotal}/day\nPlease confirm size availability!`
-  );
 
   return (
     <section className="container-custom" id="gear-rental" style={{ paddingBottom: '48px' }}>
@@ -96,21 +87,10 @@ export default function RidingGearSection({ onOpenBooking }) {
           </div>
 
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <a
-              href={`https://wa.me/919797948265?text=${whatsappGearText}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary-orange"
-              style={{ padding: '10px 20px', fontSize: '0.825rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
-            >
-              <MessageCircle size={15} />
-              <span>Reserve Gear on WhatsApp</span>
-            </a>
-
             <button
               onClick={() => onOpenBooking({ name: `Riding Gear Bundle (${selectedGear.length} items)`, priceDisplay: `₹${calculatedGearTotal} / Day` })}
-              className="btn-outline-dark"
-              style={{ background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', padding: '10px 18px', fontSize: '0.825rem' }}
+              className="btn-primary-orange"
+              style={{ padding: '10px 20px', fontSize: '0.825rem' }}
             >
               Add to Bike Booking
             </button>

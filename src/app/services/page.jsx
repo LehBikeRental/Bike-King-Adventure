@@ -10,7 +10,6 @@ import BookingModal from '../../components/BookingModal';
 import FloatingWhatsApp from '../../components/FloatingWhatsApp';
 import MobileStickyBar from '../../components/MobileStickyBar';
 import RentalFaq from '../../components/RentalFaq';
-import ServicesPortalGrid from '../../components/services/ServicesPortalGrid';
 import ServicesDirectoryList from '../../components/services/ServicesDirectoryList';
 import ExpeditionChecklist from '../../components/services/ExpeditionChecklist';
 
@@ -52,24 +51,21 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* 3. Core Adventure Portals (Bikes, Taxis, Packages) */}
-      <ServicesPortalGrid />
-
-      {/* 4. Complete Adventure Services Directory */}
+      {/* 3. Complete Adventure Services Directory */}
       <ServicesDirectoryList onOpenBooking={handleOpenBooking} />
 
-      {/* 5. Pre-Trip Expedition Checklist */}
+      {/* 4. Pre-Trip Expedition Checklist */}
       <ExpeditionChecklist />
 
-      {/* 6. FAQs */}
+      {/* 5. FAQs */}
       <RentalFaq />
 
-      {/* 7. Footer & Interactive Bottom Elements */}
+      {/* 6. Footer & Interactive Bottom Elements */}
       <Footer onOpenBooking={() => handleOpenBooking(null, 'service')} />
       <FloatingWhatsApp />
       <MobileStickyBar onOpenBooking={() => handleOpenBooking(null, 'service')} />
 
-      {/* 8. Reservation Modal */}
+      {/* 7. Reservation Modal */}
       <BookingModal
         isOpen={bookingModalOpen}
         onClose={() => setBookingModalOpen(false)}

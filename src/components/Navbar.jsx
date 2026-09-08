@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Phone, ArrowRight, Shield } from 'lucide-react';
 import BrandLogo from './BrandLogo';
+import { useContactInfo } from '../lib/useContactInfo';
 
 export default function Navbar({ onOpenBooking }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const contact = useContactInfo();
 
   const navLinks = [
     { name: 'HOME', href: '/' },
@@ -37,7 +39,7 @@ export default function Navbar({ onOpenBooking }) {
         
         {/* Brand Logo with Compass Emblem */}
         <Link href="/" className="header-logo-link">
-          <BrandLogo size={44} showText={true} isLight={true} />
+          <BrandLogo size={56} showText={true} isLight={false} />
         </Link>
 
         {/* Desktop Nav Links */}
@@ -55,9 +57,9 @@ export default function Navbar({ onOpenBooking }) {
 
         {/* Right Action Buttons */}
         <div className="header-actions">
-          <a href="tel:9797948265" className="header-phone-link">
+          <a href={`tel:${contact.phone}`} className="header-phone-link">
             <Phone size={14} className="phone-icon-pulse" />
-            <span className="phone-number-text">9797948265</span>
+            <span className="phone-number-text">{contact.phone}</span>
           </a>
 
           <button
@@ -101,9 +103,9 @@ export default function Navbar({ onOpenBooking }) {
             </nav>
 
             <div className="mobile-drawer-footer">
-              <a href="tel:9797948265" className="mobile-drawer-call">
+              <a href={`tel:${contact.phone}`} className="mobile-drawer-call">
                 <Phone size={16} color="#FF6500" />
-                <span>Call Local Desk: 9797948265</span>
+                <span>Call Local Desk: {contact.phone}</span>
               </a>
 
               <button

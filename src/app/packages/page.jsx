@@ -11,11 +11,7 @@ import PackageModal from '../../components/PackageModal';
 import FloatingWhatsApp from '../../components/FloatingWhatsApp';
 import MobileStickyBar from '../../components/MobileStickyBar';
 import RentalFaq from '../../components/RentalFaq';
-import PackagesHeroGlamping from '../../components/packages/PackagesHeroGlamping';
 import PackagesList from '../../components/packages/PackagesList';
-import CustomPackageCalculator from '../../components/packages/CustomPackageCalculator';
-import InclusionsExclusionsBox from '../../components/packages/InclusionsExclusionsBox';
-import AmsSafetyProtocol from '../../components/packages/AmsSafetyProtocol';
 
 export default function PackagesPage() {
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -45,7 +41,7 @@ export default function PackagesPage() {
         <div className="container-custom">
           <div className="inner-hero-badge">
             <Compass size={14} />
-            <span>All-Inclusive Guided & Self-Ride Himalayan Expeditions</span>
+            <span>All-Inclusive Himalayan Expeditions</span>
           </div>
           <h1 className="inner-hero-title">Curated Ladakh Tour Packages</h1>
           <p className="inner-hero-desc">
@@ -60,33 +56,21 @@ export default function PackagesPage() {
         </div>
       </section>
 
-      {/* 3. Expedition Glamping Spotlight Banner */}
-      <PackagesHeroGlamping onOpenBooking={handleBookPackage} />
-
-      {/* 4. Filterable Packages Grid */}
+      {/* 3. Filterable Packages Grid */}
       <PackagesList 
         onSelectPackage={handleOpenPackageModal} 
         onBookPackage={handleBookPackage} 
       />
 
-      {/* 5. Interactive Custom Tour Cost Calculator */}
-      <CustomPackageCalculator onBookPackage={handleBookPackage} />
-
-      {/* 6. Inclusions vs Exclusions Matrix */}
-      <InclusionsExclusionsBox />
-
-      {/* 7. High-Altitude AMS Safety Protocol */}
-      <AmsSafetyProtocol />
-
-      {/* 8. FAQs */}
+      {/* 4. FAQs */}
       <RentalFaq />
 
-      {/* 9. Footer & Interactive Bottom Elements */}
+      {/* 5. Footer & Interactive Bottom Elements */}
       <Footer onOpenBooking={() => handleBookPackage(null)} />
       <FloatingWhatsApp />
       <MobileStickyBar onOpenBooking={() => handleBookPackage(null)} />
 
-      {/* 10. Modals */}
+      {/* 6. Modals */}
       <PackageModal
         pkg={selectedPackage}
         isOpen={packageModalOpen}

@@ -2,21 +2,76 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { X, Check, Calendar, User, Phone, MapPin, Bike, ArrowRight } from 'lucide-react';
-import { bikesData } from '../data/bikes';
-import { packagesData } from '../data/packages';
+import { X, CheckCircle2, ArrowRight, PhoneCall } from 'lucide-react';
+import { bikesData as staticBikesData } from '../data/bikes';
+import { packagesData as staticPackagesData } from '../data/packages';
+import { servicesList as staticServicesList } from '../data/services';
 import { supabase } from '../lib/supabase';
+import { useContactInfo } from '../lib/useContactInfo';
+
+const staticServicesData = staticServicesList
+  .filter((s) => s.bookingType === 'service')
+  .map((s) => ({ id: s.id, title: s.shortTitle || s.title, price: s.price }));
+
+function mapDbService(row) {
+  return {
+    id: row.slug || row.id,
+    title: row.short_title || row.title,
+    price: row.price,
+  };
+}
+
+function mapDbBike(row) {
+  return {
+    id: row.slug || row.id,
+    name: row.name,
+    specs: row.specs,
+    engine: row.engine,
+    power: row.power,
+    groundClearance: row.ground_clearance,
+    fuelCapacity: row.fuel_capacity,
+    type: row.type,
+    price: row.price,
+    priceDisplay: row.price_display,
+    image: row.image_url,
+    badge: row.badge,
+    description: row.description,
+    features: Array.isArray(row.features) ? row.features : [],
+  };
+}
+
+function mapDbPackage(row) {
+  return {
+    id: row.slug || row.id,
+    title: row.title,
+    duration: row.duration,
+    daysCount: row.days_count,
+    route: row.route,
+    price: row.price,
+    priceDisplay: row.price_display,
+    image: row.image_url,
+    category: row.category,
+    inclusions: Array.isArray(row.inclusions) ? row.inclusions : [],
+    highlights: Array.isArray(row.highlights) ? row.highlights : [],
+    itinerary: Array.isArray(row.itinerary) ? row.itinerary : [],
+  };
+}
 
 export default function BookingModal({ isOpen, onClose, initialItem, initialType = 'bike' }) {
+  const contact = useContactInfo();
+  const [submitted, setSubmitted] = useState(false);
   const [bookingType, setBookingType] = useState(initialType);
+  const [bikesData, setBikesData] = useState(staticBikesData);
+  const [packagesData, setPackagesData] = useState(staticPackagesData);
+  const [servicesData, setServicesData] = useState(staticServicesData);
   const [selectedBikeId, setSelectedBikeId] = useState(
-    initialType === 'bike' && initialItem ? initialItem.id : bikesData[0].id
+    initialType === 'bike' && initialItem ? initialItem.id : staticBikesData[0].id
   );
   const [selectedPackageId, setSelectedPackageId] = useState(
-    initialType === 'package' && initialItem ? initialItem.id : packagesData[0].id
+    initialType === 'package' && initialItem ? initialItem.id : staticPackagesData[0].id
   );
   const [serviceType, setServiceType] = useState(
-    initialType === 'service' && initialItem ? initialItem.title : 'Bike Rental'
+    initialType === 'service' && initialItem ? initialItem.title : staticServicesData[0]?.title || ''
   );
   const [days, setDays] = useState(3);
   const [ridersCount, setRidersCount] = useState(1);
@@ -31,6 +86,73 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
     if (initialType === 'package' && initialItem) setSelectedPackageId(initialItem.id);
     if (initialType === 'service' && initialItem) setServiceType(initialItem.title);
   }, [initialItem, initialType]);
+
+  useEffect(() => {
+    if (isOpen) setSubmitted(false);
+  }, [isOpen]);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('packages')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          setPackagesData(data.map(mapDbPackage));
+        }
+      } catch (err) {
+        console.warn('Falling back to static packages list:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('bikes')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          setBikesData(data.map(mapDbBike));
+        }
+      } catch (err) {
+        console.warn('Falling back to static bikes list:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('services')
+          .select('*')
+          .eq('is_active', true)
+          .eq('booking_type', 'service')
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          const mapped = data.map(mapDbService);
+          setServicesData(mapped);
+          if (!initialItem || initialType !== 'service') {
+            setServiceType(mapped[0].title);
+          }
+        }
+      } catch (err) {
+        console.warn('Falling back to static services list:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!isOpen) return null;
 
@@ -81,32 +203,12 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
       console.warn('Booking record save error:', err);
     }
 
-    let text = `*New Reservation Request - Biker King Adventure*%0A%0A`;
-    text += `*Type:* ${bookingType.toUpperCase()}%0A`;
-    if (bookingType === 'bike') {
-      text += `*Bike:* ${currentBike.name} (${currentBike.specs})%0A`;
-      text += `*Duration:* ${days} Day(s)%0A`;
-      text += `*Bikes Count:* ${ridersCount}%0A`;
-      text += `*Estimated Total:* ₹${estimatedPrice.toLocaleString('en-IN')}%0A`;
-    } else if (bookingType === 'package') {
-      text += `*Package:* ${currentPackage.title} (${currentPackage.duration})%0A`;
-      text += `*Persons:* ${ridersCount}%0A`;
-      text += `*Package Total:* ₹${estimatedPrice.toLocaleString('en-IN')}%0A`;
-    } else {
-      text += `*Service:* ${serviceType}%0A`;
-    }
-    text += `*Start Date:* ${startDate || 'Immediate / Flexible'}%0A`;
-    text += `*Pickup Location:* ${pickupLoc}%0A`;
-    text += `*Customer Name:* ${encodeURIComponent(fullName || 'Valued Guest')}%0A`;
-    text += `*Phone:* ${encodeURIComponent(phone || 'WhatsApp Direct')}`;
-
-    window.open(`https://wa.me/919797948265?text=${text}`, '_blank');
-    onClose();
+    setSubmitted(true);
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-dialog" style={{ background: '#FFFFFF', border: '1px solid #CBD5E1', color: '#0F172A', boxShadow: '0 20px 50px rgba(0,0,0,0.2)' }} onClick={(e) => e.stopPropagation()}>
+    <div className="modal-backdrop" onClick={onClose} style={{ zIndex: 1100 }}>
+      <div className="modal-dialog" style={{ background: '#FFFFFF', borderRadius: '20px', overflow: 'hidden', border: '1px solid #CBD5E1', color: '#0F172A', boxShadow: '0 25px 60px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
         
         {/* Modal Header */}
         <div style={{
@@ -148,7 +250,28 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
 
         {/* Modal Body */}
         <div style={{ padding: '24px' }}>
-          
+          {submitted ? (
+            <div style={{ textAlign: 'center', padding: '20px 8px' }}>
+              <CheckCircle2 size={44} color="#10B981" style={{ margin: '0 auto 12px auto' }} />
+              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 900, color: '#0F172A', marginBottom: '8px' }}>
+                Booking Request Received!
+              </h3>
+              <p style={{ fontSize: '0.9rem', color: '#475569', lineHeight: 1.6, marginBottom: '20px' }}>
+                Thank you, <strong>{fullName || 'Guest'}</strong>! Your reservation request has been sent to our Leh office.
+                Our team will review your dates and contact you on WhatsApp or phone shortly to confirm availability.
+              </p>
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <a href={`tel:+91${contact.phone}`} className="btn-primary-orange" style={{ padding: '12px 24px', display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+                  <PhoneCall size={16} />
+                  <span>Call Desk Now</span>
+                </a>
+                <button type="button" onClick={onClose} className="btn-secondary-white" style={{ padding: '12px 24px' }}>
+                  Close
+                </button>
+              </div>
+            </div>
+          ) : (
+          <>
           {/* Booking Type Tabs */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '20px' }}>
             {['bike', 'package', 'service'].map((type) => (
@@ -224,11 +347,11 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
                   value={serviceType}
                   onChange={(e) => setServiceType(e.target.value)}
                 >
-                  <option>Taxi Service Leh Ladakh (Innova / Fortuner 4x4)</option>
-                  <option>Hotel & Homestay Booking</option>
-                  <option>Snow Leopard Winter Expedition</option>
-                  <option>Frozen Pangong Lake Tour</option>
-                  <option>Motorbike Mechanic & Backup Vehicle</option>
+                  {servicesData.map((service) => (
+                    <option key={service.id} value={service.title}>
+                      {service.title}{service.price ? ` — ${service.price}` : ''}
+                    </option>
+                  ))}
                 </select>
               </div>
             )}
@@ -337,14 +460,16 @@ export default function BookingModal({ isOpen, onClose, initialItem, initialType
               className="btn-primary-orange"
               style={{ width: '100%', padding: '12px', fontSize: '0.875rem' }}
             >
-              CONFIRM & INQUIRE ON WHATSAPP <ArrowRight size={16} />
+              CONFIRM BOOKING <ArrowRight size={16} />
             </button>
 
             <p style={{ fontSize: '0.8rem', color: '#64748B', textAlign: 'center' }}>
-              🔒 Instant confirmation with Biker King office in Malpax Complex, Leh.
+              🔒 Your request goes straight to our Leh office team for confirmation.
             </p>
 
           </form>
+          </>
+          )}
 
         </div>
 

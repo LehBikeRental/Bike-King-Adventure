@@ -1,27 +1,91 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { 
-  Zap, 
-  Fuel, 
-  Gauge, 
-  ArrowRight, 
-  ShieldCheck, 
-  CheckCircle2, 
+import {
+  Zap,
+  Fuel,
+  Gauge,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
   Sparkles,
   Flame
 } from 'lucide-react';
-import { bikesData } from '../data/bikes';
+import { bikesData as staticBikesData } from '../data/bikes';
+import { supabase } from '../lib/supabase';
+
+function mapDbBike(row) {
+  return {
+    id: row.slug || row.id,
+    name: row.name,
+    specs: row.specs,
+    engine: row.engine,
+    power: row.power,
+    groundClearance: row.ground_clearance,
+    fuelCapacity: row.fuel_capacity,
+    type: row.type,
+    price: row.price,
+    priceDisplay: row.price_display,
+    image: row.image_url,
+    badge: row.badge,
+    description: row.description,
+    features: Array.isArray(row.features) ? row.features : [],
+  };
+}
+
+const DEFAULT_CONTENT = {
+  badgeText: 'Explore Ladakh',
+  title: 'Rent Royal Enfield Bikes in Leh',
+  subtitle: 'Well-maintained adventure bikes fitted with luggage carriers, crash guards, and mountain tyres.',
+};
 
 export default function BikeAdvertisement({ onSelectBike, onOpenBooking }) {
-  // Top 3 featured flagship bikes for the advertisement teaser
-  const featuredBikes = [
-    bikesData.find(b => b.id === 'himalayan-450') || bikesData[1],
-    bikesData.find(b => b.id === 'himalayan-411') || bikesData[0],
-    bikesData.find(b => b.id === 'scram-411') || bikesData[3],
-  ];
+  const [bikesData, setBikesData] = useState(staticBikesData);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+
+  // Shows every bike the admin has ticked "Show in homepage showcase" for.
+  const featuredBikes = bikesData;
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('home_content')
+          .select('data')
+          .eq('section_key', 'bike_ad')
+          .single();
+        if (!error && isMounted && data?.data) {
+          setContent({ ...DEFAULT_CONTENT, ...data.data });
+        }
+      } catch (err) {
+        console.warn('Falling back to default bike ad content:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('bikes')
+          .select('*')
+          .eq('is_active', true)
+          .eq('show_on_homepage', true)
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          setBikesData(data.map(mapDbBike));
+        }
+      } catch (err) {
+        console.warn('Falling back to static bikes list:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
 
   return (
     <section className="container-custom" id="bikes" style={{ paddingTop: '48px', paddingBottom: '44px' }}>
@@ -32,21 +96,20 @@ export default function BikeAdvertisement({ onSelectBike, onOpenBooking }) {
         {/* Top Header */}
         <div className="bike-ad-header">
           <div className="bike-ad-badge">
-            <Flame size={14} color="#EA580C" />
-            <span>Special Fleet Promotion • Season 2026</span>
+            <Flame size={14} color="#EA580C" style={{ flexShrink: 0 }} />
+            <span style={{ whiteSpace: 'nowrap' }}>{content.badgeText}</span>
           </div>
 
           <h2 className="bike-ad-title">
-            Conquer The High Passes On Royal Enfield
+            {content.title}
           </h2>
 
           <p className="bike-ad-subtitle">
-            Showroom-tuned adventure motorcycles starting from <strong>₹800 / Day</strong>. 
-            Pre-equipped with heavy-duty luggage racks, crash guards, and dual-purpose terrain tyres.
+            {content.subtitle}
           </p>
         </div>
 
-        {/* 3 Featured Bikes Showcase Cards */}
+        {/* Featured Bikes Showcase Cards */}
         <div className="bike-ad-grid">
           {featuredBikes.map((bike) => (
             <div 
@@ -66,7 +129,7 @@ export default function BikeAdvertisement({ onSelectBike, onOpenBooking }) {
                   src={bike.image}
                   alt={bike.name}
                   fill
-                  style={{ objectFit: 'contain' }}
+                  style={{ objectFit: 'cover' }}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
@@ -129,28 +192,7 @@ export default function BikeAdvertisement({ onSelectBike, onOpenBooking }) {
           ))}
         </div>
 
-        {/* Bottom Call to Action Strip */}
-        <div className="bike-ad-bottom-bar">
-          <div className="bike-ad-bottom-text">
-            <h4>Want to see all 8 models including Meteor, Classic 350, Hunter & Scooty?</h4>
-            <p>Compare full engine specifications, luggage capacity, and security deposit terms.</p>
-          </div>
 
-          <div className="bike-ad-bottom-actions">
-            <Link href="/bikes" className="btn-primary-orange" style={{ textDecoration: 'none', padding: '12px 24px' }}>
-              <span>View Full Bike Fleet & Pricing (8 Models)</span>
-              <ArrowRight size={16} style={{ marginLeft: '6px' }} />
-            </Link>
-            <button 
-              type="button" 
-              onClick={() => onOpenBooking && onOpenBooking()}
-              className="btn-dark-pill"
-              style={{ padding: '12px 20px', fontSize: '0.82rem' }}
-            >
-              Quick Inquire
-            </button>
-          </div>
-        </div>
 
         {/* Trust Badges Strip */}
         <div className="fleet-trust-strip" style={{ marginTop: '20px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', background: 'transparent' }}>
@@ -170,6 +212,28 @@ export default function BikeAdvertisement({ onSelectBike, onOpenBooking }) {
             <CheckCircle2 size={16} color="#10B981" />
             <span style={{ color: 'var(--slate-300)' }}>24/7 Roadside Assistance in Leh</span>
           </div>
+        </div>
+
+        {/* View All Bikes Button */}
+        <div style={{ textAlign: 'center', marginTop: '28px' }}>
+          <Link
+            href="/bikes"
+            className="btn-primary-orange"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '12px 28px',
+              fontSize: '0.875rem',
+              textDecoration: 'none',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em'
+            }}
+          >
+            <span>View All Bikes & Models</span>
+            <ArrowRight size={16} />
+          </Link>
         </div>
 
       </div>

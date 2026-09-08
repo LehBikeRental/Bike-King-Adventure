@@ -1,4 +1,6 @@
 import './globals.css';
+import FloatingWhatsApp from '../components/FloatingWhatsApp';
+import { supabase } from '../lib/supabase';
 
 export const metadata = {
   metadataBase: new URL('https://bikerkingadventure.com'),
@@ -77,57 +79,82 @@ export const viewport = {
   themeColor: '#EA580C',
 };
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': ['TravelAgency', 'AutoRental'],
-      '@id': 'https://bikerkingadventure.com/#organization',
-      name: 'Biker King Adventure',
-      url: 'https://bikerkingadventure.com',
-      logo: 'https://bikerkingadventure.com/favicon.svg',
-      image: 'https://bikerkingadventure.com/images/hero-pangong.webp',
-      description: 'Premier Royal Enfield motorbike rentals, 4x4 mountain taxis, and guided expeditions across Leh Ladakh.',
-      telephone: '+91-9797948265',
-      email: 'bikerkingadventure98@gmail.com',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Malpax complex, Leh Main Market',
-        addressLocality: 'Leh',
-        addressRegion: 'Ladakh',
-        postalCode: '194101',
-        addressCountry: 'IN',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: 34.1526,
-        longitude: 77.5771,
-      },
-      openingHoursSpecification: [
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          opens: '07:00',
-          closes: '22:00',
-        },
-      ],
-      priceRange: '₹₹',
-      sameAs: [
-        'https://www.instagram.com/ridewithbk?igsi=cGFxMWUxbDh3dGRx&utm_source=qr',
-      ],
-    },
-  ],
+const DEFAULT_CONTACT = {
+  phone: '9797948265',
+  email: 'bikerkingadventure98@gmail.com',
+  addressLine1: 'Malpax complex, Leh Main Market',
+  instagramUrl: 'https://www.instagram.com/ridewithbk?igsi=cGFxMWUxbDh3dGRx&utm_source=qr',
+  facebookUrl: '',
+  youtubeUrl: '',
 };
 
-export default function RootLayout({ children }) {
+async function getContactInfo() {
+  try {
+    const { data, error } = await supabase
+      .from('home_content')
+      .select('data')
+      .eq('section_key', 'contact_info')
+      .single();
+    if (!error && data?.data) {
+      return { ...DEFAULT_CONTACT, ...data.data };
+    }
+  } catch (err) {
+    console.warn('Falling back to default contact info for structured data:', err);
+  }
+  return DEFAULT_CONTACT;
+}
+
+export default async function RootLayout({ children }) {
+  const contact = await getContactInfo();
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': ['TravelAgency', 'AutoRental'],
+        '@id': 'https://bikerkingadventure.com/#organization',
+        name: 'Biker King Adventure',
+        url: 'https://bikerkingadventure.com',
+        logo: 'https://bikerkingadventure.com/favicon.svg',
+        image: 'https://bikerkingadventure.com/images/hero-pangong.webp',
+        description: 'Premier Royal Enfield motorbike rentals, 4x4 mountain taxis, and guided expeditions across Leh Ladakh.',
+        telephone: `+91-${contact.phone}`,
+        email: contact.email,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: contact.addressLine1,
+          addressLocality: 'Leh',
+          addressRegion: 'Ladakh',
+          postalCode: '194101',
+          addressCountry: 'IN',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: 34.1526,
+          longitude: 77.5771,
+        },
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: [
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday',
+              'Sunday',
+            ],
+            opens: '07:00',
+            closes: '22:00',
+          },
+        ],
+        priceRange: '₹₹',
+        sameAs: [contact.instagramUrl, contact.facebookUrl, contact.youtubeUrl].filter(Boolean),
+      },
+    ],
+  };
+
   return (
     <html lang="en">
       <head>
@@ -144,6 +171,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );

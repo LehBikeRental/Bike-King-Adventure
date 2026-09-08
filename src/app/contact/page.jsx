@@ -29,8 +29,8 @@ export default function ContactPage() {
       <section className="inner-hero">
         <div className="container-custom">
           <div className="inner-hero-badge">
-            <MessageCircle size={14} />
-            <span>24/7 Local Leh Ladakh Support</span>
+            <MessageCircle size={14} style={{ flexShrink: 0 }} />
+            <span style={{ whiteSpace: 'nowrap' }}>24/7 Local Leh Ladakh Support</span>
           </div>
           <h1 className="inner-hero-title">Connect With Our Leh Desk</h1>
           <p className="inner-hero-desc">
@@ -46,7 +46,7 @@ export default function ContactPage() {
       </section>
 
       {/* Main Channels & Interactive Inquiry Grid */}
-      <section className="container-custom" style={{ paddingTop: '40px', paddingBottom: '40px' }}>
+      <section className="container-custom contact-main-section">
         <div className="contact-page-grid">
           {/* Left Column: Direct Communication Channels & Pre-Trip Checklist */}
           <ContactChannelsGrid />

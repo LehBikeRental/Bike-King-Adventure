@@ -3,59 +3,55 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Award, CheckCircle2, ArrowRight, Star } from 'lucide-react';
 import { NATIVE_PILLARS } from '../../data/about';
 
 export default function AboutStoryNarrative({ onOpenBooking }) {
   return (
-    <section className="container-custom" style={{ paddingTop: '50px', paddingBottom: '40px' }}>
+    <section className="container-custom about-story-section">
       <div className="about-story-grid">
-        
+
         <div className="about-text-content">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--primary-orange)', fontWeight: 800, fontSize: '0.85rem', marginBottom: '8px', textTransform: 'uppercase' }}>
+          <div className="about-badge-tag">
             <Award size={16} />
-            <span>Native Himalayan Roots</span>
+            <span>Born in the Himalayas</span>
           </div>
-          <h2 style={{ fontSize: '1.85rem', fontWeight: 900, color: '#0F172A', marginBottom: '14px', lineHeight: 1.25 }}>
-            Pioneering Mountain Journeys Across Leh Ladakh Since 2012
-          </h2>
-          <p style={{ fontSize: '0.95rem', color: '#475569', lineHeight: 1.7, marginBottom: '14px' }}>
-            Founded by passionate local Ladakhi riders, <strong>Biker King Adventure</strong> was born out of a simple, fierce vision: to empower travelers from around the globe to explore the dramatic heights of Ladakh with complete confidence, pristine machinery, and true brotherhood.
+          <h3>Pioneering Mountain Biking Journeys Across Leh Ladakh</h3>
+          <p>
+            Founded by passionate Ladakhi riders, <strong>Biker King Adventure</strong> was born out of a simple, fierce vision: to empower travelers from around the globe to explore the dramatic heights of Ladakh with complete confidence and safety.
           </p>
-          <p style={{ fontSize: '0.95rem', color: '#475569', lineHeight: 1.7, marginBottom: '20px' }}>
-            Riding the high passes of Khardung La (17,982 ft), Chang La (17,688 ft), and Umling La (19,024 ft) tests both human grit and engine reliability. We tune our bikes specifically for thin high-altitude air, provide certified protective gear, and back every rider with genuine 24/7 mountain support.
+          <p>
+            Riding the rugged passes of Khardung La (17,982 ft), Chang La (17,688 ft), and Umling La (19,024 ft) is not an ordinary commute. It tests both machine and human grit. We tune our bikes specifically for thin high-altitude air, provide certified high-grade protective gear, and back every rider with genuine 24/7 mountain support.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+          <div className="about-pillars-subgrid">
             {NATIVE_PILLARS.map((pillar, idx) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem', fontWeight: 700, color: '#1E293B' }}>
-                <CheckCircle2 size={18} color="#10B981" />
+              <div key={idx} className="about-pillar-item">
+                <CheckCircle2 size={18} color="#10B981" style={{ flexShrink: 0 }} />
                 <span>{pillar}</span>
               </div>
             ))}
           </div>
 
-          <div style={{ marginTop: '28px', display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-            <button 
+          <div className="about-story-actions">
+            <button
               onClick={onOpenBooking}
-              className="btn-primary-orange"
-              style={{ padding: '12px 28px' }}
+              className="btn-primary-orange about-action-btn"
             >
-              RESERVE YOUR RIDE
+              BOOK YOUR MOTORBIKE
             </button>
             <Link
               href="/contact"
-              className="btn-secondary-white"
-              style={{ padding: '12px 24px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+              className="btn-secondary-white about-action-btn"
             >
-              <span>VISIT OUR LEH OFFICE</span>
+              <span>CONTACT LEH DESK</span>
               <ArrowRight size={16} />
             </Link>
           </div>
         </div>
 
         {/* Right Hero Image Card */}
-        <div style={{ position: 'relative', width: '100%', minHeight: '380px', borderRadius: '16px', overflow: 'hidden', boxShadow: 'var(--shadow-xl)' }}>
+        <div className="about-story-image-card">
           <Image
             src="/images/hero-pangong.webp"
             alt="Biker King Adventure Leh Ladakh Team and Fleet"
@@ -63,20 +59,18 @@ export default function AboutStoryNarrative({ onOpenBooking }) {
             style={{ objectFit: 'cover' }}
             sizes="(max-width: 900px) 100vw, 50vw"
           />
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, transparent 50%)'
-          }} />
-          <div style={{ position: 'absolute', bottom: '24px', left: '24px', right: '24px', color: 'var(--white)' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', color: 'var(--primary-orange)', letterSpacing: '1px' }}>
-              Headquarters
-            </span>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 900, marginTop: '2px' }}>
-              Malpax Complex, Leh Main Market, Ladakh
-            </h3>
-            <p style={{ fontSize: '0.825rem', color: 'var(--slate-300)', marginTop: '4px' }}>
-              Minutes from Leh Airport. Come meet our mechanics and inspect your motorcycle before setting out.
+          <div className="about-story-image-overlay" />
+          <div className="about-story-image-content">
+            <div className="about-story-rating-row">
+              <div style={{ display: 'flex', color: '#FBBF24' }}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={16} fill="#FBBF24" color="#FBBF24" />
+                ))}
+              </div>
+              <span className="about-story-rating-text">Trusted by 5,000+ Himalayan Riders</span>
+            </div>
+            <p className="about-story-quote">
+              &ldquo;Biker King Adventure provided us brand-new Himalayan 450s with carrier luggage frames and backup support. The ultimate mountain experience!&rdquo;
             </p>
           </div>
         </div>

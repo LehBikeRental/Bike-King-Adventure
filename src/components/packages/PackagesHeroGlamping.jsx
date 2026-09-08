@@ -3,8 +3,10 @@
 import React from 'react';
 import Image from 'next/image';
 import { Sparkles, CheckCircle2, MessageCircle } from 'lucide-react';
+import { useContactInfo } from '../../lib/useContactInfo';
 
 export default function PackagesHeroGlamping({ onOpenBooking }) {
+  const contact = useContactInfo();
   return (
     <section className="container-custom" style={{ paddingTop: '28px', paddingBottom: '32px' }}>
       <div style={{
@@ -70,7 +72,7 @@ export default function PackagesHeroGlamping({ onOpenBooking }) {
 
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <a
-              href="https://wa.me/919797948265?text=Hi%20Biker%20King%20Adventure,%20I%20want%20to%20customize%20a%20Ladakh%20tour%20package."
+              href={`https://wa.me/${contact.whatsappNumber}?text=Hi%20Biker%20King%20Adventure,%20I%20want%20to%20customize%20a%20Ladakh%20tour%20package.`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary-orange"

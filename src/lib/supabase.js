@@ -9,11 +9,18 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl || '', supabaseAnonKey || '');
 
-// Admin/Service-role client (for secure server-side operations only)
+// Admin/Service-role client (for secure server-side operations only).
+// Next.js patches the global fetch to cache GET requests inside Route
+// Handlers; without this override, admin reads could silently serve a
+// stale cached PostgREST response instead of live data.
 export const getServiceSupabase = () => {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!serviceRoleKey) {
     throw new Error('SUPABASE_SERVICE_ROLE_KEY is not defined.');
   }
-  return createClient(supabaseUrl || '', serviceRoleKey);
+  return createClient(supabaseUrl || '', serviceRoleKey, {
+    global: {
+      fetch: (url, options = {}) => fetch(url, { ...options, cache: 'no-store' }),
+    },
+  });
 };

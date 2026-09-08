@@ -12,7 +12,7 @@ export const bikesData = [
     priceDisplay: "₹2,000 / Day",
     image: "/images/bikes/himalayan-411.webp",
     badge: "Popular Pick",
-    description: "The classic legendary Himalayan adventure machine built for crossing high Himalayan passes like Khardung La and Chang La."
+    description: "Legendary adventure bike designed for tough mountain passes like Khardung La and Pangong Lake."
   },
   {
     id: "himalayan-450",
@@ -27,7 +27,7 @@ export const bikesData = [
     priceDisplay: "₹2,500 / Day",
     image: "/images/bikes/himalayan-450.jpg",
     badge: "Top Pick",
-    description: "All-new liquid cooled high-power adventure tourer with USD forks, ride modes, and Tripper navigation screen."
+    description: "Powerful 450cc liquid-cooled engine with digital GPS screen and high clearance for high mountain passes."
   },
   {
     id: "himalayan-440",
@@ -42,7 +42,7 @@ export const bikesData = [
     priceDisplay: "₹2,300 / Day",
     image: "/images/bikes/himalayan-440.webp",
     badge: "New Fleet",
-    description: "Torque-rich powerhouse engineered for steep inclines and rocky off-road terrain with maximum stability."
+    description: "High torque bike built for steep mountain inclines and rocky off-road paths."
   },
   {
     id: "scram-411",
@@ -57,7 +57,7 @@ export const bikesData = [
     priceDisplay: "₹2,100 / Day",
     image: "/images/bikes/scram-411.webp",
     badge: "Agile Ride",
-    description: "Urban scrambler agility mixed with authentic Himalayan DNA. Lightweight handling for quick mountain switchbacks."
+    description: "Lightweight and easy to handle scrambler bike, ideal for smooth mountain riding."
   },
   {
     id: "meteor-350",

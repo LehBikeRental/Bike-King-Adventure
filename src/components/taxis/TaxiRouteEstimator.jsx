@@ -1,29 +1,60 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Calculator, Navigation, Clock, MessageCircle } from 'lucide-react';
-import { ladakhTaxiRoutes } from '../../data/taxis';
+import React, { useState, useEffect } from 'react';
+import { Calculator, Navigation, Clock } from 'lucide-react';
+import { ladakhTaxiRoutes as staticTaxiRoutes } from '../../data/taxis';
+import { supabase } from '../../lib/supabase';
+
+function mapDbRoute(row) {
+  return {
+    title: row.title,
+    distance: row.distance,
+    duration: row.duration,
+    passes: row.passes,
+    highlights: row.highlights,
+    innovaPrice: row.innova_price,
+    scorpioPrice: row.scorpio_price,
+    tempoPrice: row.tempo_price,
+  };
+}
 
 export default function TaxiRouteEstimator({ onOpenBooking }) {
+  const [ladakhTaxiRoutes, setLadakhTaxiRoutes] = useState(staticTaxiRoutes);
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
   const [selectedVehicle, setSelectedVehicle] = useState('innova');
 
-  const currentRoute = ladakhTaxiRoutes[selectedRouteIndex];
-  const currentTaxiPrice = selectedVehicle === 'innova' 
-    ? currentRoute.innovaPrice 
-    : selectedVehicle === 'scorpio' 
-    ? currentRoute.scorpioPrice 
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('taxi_routes')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          setLadakhTaxiRoutes(data.map(mapDbRoute));
+          setSelectedRouteIndex(0);
+        }
+      } catch (err) {
+        console.warn('Falling back to static taxi routes:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  const currentRoute = ladakhTaxiRoutes[selectedRouteIndex] || ladakhTaxiRoutes[0];
+  const currentTaxiPrice = selectedVehicle === 'innova'
+    ? currentRoute.innovaPrice
+    : selectedVehicle === 'scorpio'
+    ? currentRoute.scorpioPrice
     : currentRoute.tempoPrice;
 
-  const vehicleLabel = selectedVehicle === 'innova' 
-    ? 'Toyota Innova Crysta' 
-    : selectedVehicle === 'scorpio' 
-    ? 'Mahindra Scorpio 4x4' 
+  const vehicleLabel = selectedVehicle === 'innova'
+    ? 'Toyota Innova Crysta'
+    : selectedVehicle === 'scorpio'
+    ? 'Mahindra Scorpio 4x4'
     : 'Force Tempo Traveler';
-
-  const whatsappMessage = encodeURIComponent(
-    `Hi Biker King Adventure! I would like to book a 4x4 Taxi:\n• Circuit: ${currentRoute.title}\n• Vehicle: ${vehicleLabel}\n• Estimated Fare: ₹${currentTaxiPrice.toLocaleString('en-IN')}\nPlease confirm driver availability!`
-  );
 
   return (
     <section className="container-custom" style={{ paddingTop: '28px', paddingBottom: '40px' }}>
@@ -134,21 +165,10 @@ export default function TaxiRouteEstimator({ onOpenBooking }) {
             </div>
 
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-              <a
-                href={`https://wa.me/919797948265?text=${whatsappMessage}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary-orange"
-                style={{ textDecoration: 'none', padding: '12px 22px', fontSize: '0.85rem', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-              >
-                <MessageCircle size={16} />
-                <span>Book on WhatsApp</span>
-              </a>
-
               <button
                 onClick={() => onOpenBooking({ name: `${currentRoute.title} (${vehicleLabel})`, startingRate: `₹${currentTaxiPrice.toLocaleString('en-IN')}` })}
-                className="btn-outline-dark"
-                style={{ background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF', padding: '12px 20px', fontSize: '0.85rem' }}
+                className="btn-primary-orange"
+                style={{ padding: '12px 22px', fontSize: '0.85rem' }}
               >
                 Reserve Now
               </button>

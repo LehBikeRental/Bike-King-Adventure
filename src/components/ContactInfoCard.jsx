@@ -2,26 +2,29 @@
 
 import React from 'react';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { useContactInfo } from '../lib/useContactInfo';
 
 export default function ContactInfoCard() {
+  const contact = useContactInfo();
+
   const contactDetails = [
     {
       icon: Phone,
       label: "Phone Number",
-      value: "9797948265",
-      href: "tel:9797948265"
+      value: contact.phone,
+      href: `tel:${contact.phone}`
     },
     {
       icon: Mail,
       label: "Email Address",
-      value: "bikerkingadventure98@gmail.com",
-      href: "mailto:bikerkingadventure98@gmail.com"
+      value: contact.email,
+      href: `mailto:${contact.email}`
     },
     {
       icon: MapPin,
       label: "Office Address",
-      value: "Malpax complex ,Leh ,Ladakh 194101",
-      href: "https://maps.google.com/?q=Malpax+complex+Leh+Ladakh"
+      value: `${contact.addressLine1}, ${contact.addressLine2}`,
+      href: contact.mapsUrl
     },
     {
       icon: Clock,

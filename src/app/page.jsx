@@ -70,12 +70,12 @@ export default function Home() {
       />
 
       {/* 7. Verified Rider Reviews & Social Proof */}
-      <section className="container-custom" style={{ paddingTop: '10px', paddingBottom: '32px' }}>
+      <section className="container-custom home-reviews-section">
         <Reviews />
       </section>
 
       {/* 8. Full-Width Adventure Billboard CTA Banner */}
-      <section className="container-custom" style={{ paddingBottom: '60px' }}>
+      <section className="container-custom home-cta-section" style={{ marginBottom: '56px' }}>
         <CtaBanner onOpenBooking={() => handleOpenBooking(null, 'bike')} />
       </section>
 

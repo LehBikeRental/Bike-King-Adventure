@@ -119,7 +119,7 @@ export default function BrandLogo({ size = 48, showText = true, isLight = false 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{
             fontFamily: 'var(--font-display)',
-            fontSize: size > 40 ? '1.25rem' : '1.05rem',
+            fontSize: size >= 50 ? '1.4rem' : size > 40 ? '1.25rem' : '1.05rem',
             fontWeight: 950,
             letterSpacing: '0.04em',
             color: isLight ? 'var(--white)' : 'var(--slate-900)',
@@ -130,9 +130,9 @@ export default function BrandLogo({ size = 48, showText = true, isLight = false 
           </span>
           <span style={{
             fontFamily: 'var(--font-display)',
-            fontSize: size > 40 ? '0.78rem' : '0.72rem',
+            fontSize: size >= 50 ? '0.85rem' : size > 40 ? '0.78rem' : '0.72rem',
             fontWeight: 800,
-            letterSpacing: '0.2em',
+            letterSpacing: '0.22em',
             color: 'var(--primary-orange)',
             textTransform: 'uppercase',
             marginTop: '3px'

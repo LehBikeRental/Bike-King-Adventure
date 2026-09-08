@@ -10,7 +10,6 @@ import BookingModal from '../../components/BookingModal';
 import FloatingWhatsApp from '../../components/FloatingWhatsApp';
 import MobileStickyBar from '../../components/MobileStickyBar';
 import RentalFaq from '../../components/RentalFaq';
-import TaxiRouteEstimator from '../../components/taxis/TaxiRouteEstimator';
 import TaxiFleetList from '../../components/taxis/TaxiFleetList';
 import TaxiDriverTrust from '../../components/taxis/TaxiDriverTrust';
 
@@ -50,10 +49,7 @@ export default function TaxisPage() {
         </div>
       </section>
 
-      {/* 3. Interactive Route & Fare Estimator */}
-      <TaxiRouteEstimator onOpenBooking={handleOpenBooking} />
-
-      {/* 4. 4x4 Vehicle Fleet Cards */}
+      {/* 3. 4x4 Vehicle Fleet Cards */}
       <TaxiFleetList onOpenBooking={handleOpenBooking} />
 
       {/* 5. Driver Trust & Safety Badges */}

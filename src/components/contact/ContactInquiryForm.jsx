@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { Send, CheckCircle2, PhoneCall } from 'lucide-react';
 import { SERVICE_OPTIONS } from '../../data/contact';
 import { supabase } from '../../lib/supabase';
+import { useContactInfo } from '../../lib/useContactInfo';
 
 export default function ContactInquiryForm() {
+  const contact = useContactInfo();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,10 +29,10 @@ export default function ContactInquiryForm() {
     e.preventDefault();
     setLoading(true);
 
-    // 1. Try to record in Supabase inquiries if connection is available
+    // 1. Try to record the lead in Supabase if connection is available
     try {
       if (supabase) {
-        await supabase.from('inquiries').insert([
+        await supabase.from('leads').insert([
           {
             full_name: formData.name,
             email: formData.email,
@@ -38,29 +40,16 @@ export default function ContactInquiryForm() {
             service: formData.service,
             travel_dates: formData.travelDates,
             riders_count: formData.ridersCount,
-            message: formData.message,
-            created_at: new Date().toISOString()
+            message: formData.message
           }
         ]);
       }
     } catch (err) {
-      console.warn('Supabase inquiry record skipped:', err);
+      console.warn('Supabase lead record skipped:', err);
     }
 
     setLoading(false);
     setSubmitted(true);
-
-    // 2. Dispatch structured WhatsApp message directly to Biker King
-    const text = `*New Travel Inquiry - Biker King Adventure*%0A%0A` +
-      `*Name:* ${encodeURIComponent(formData.name)}%0A` +
-      `*Phone:* ${encodeURIComponent(formData.phone)}%0A` +
-      `*Email:* ${encodeURIComponent(formData.email || 'N/A')}%0A` +
-      `*Service Required:* ${encodeURIComponent(formData.service)}%0A` +
-      `*Travel Dates:* ${encodeURIComponent(formData.travelDates || 'Flexible')}%0A` +
-      `*Riders / Persons:* ${encodeURIComponent(formData.ridersCount)}%0A` +
-      `*Message / Special Request:* ${encodeURIComponent(formData.message || 'None')}`;
-
-    window.open(`https://wa.me/919797948265?text=${text}`, '_blank');
   };
 
   return (
@@ -68,19 +57,18 @@ export default function ContactInquiryForm() {
       {submitted ? (
         <div className="contact-success-box">
           <CheckCircle2 size={44} color="#10B981" style={{ margin: '0 auto 12px auto' }} />
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A' }}>
+          <h3 className="contact-success-title">
             Inquiry Dispatched Successfully!
           </h3>
-          <p style={{ fontSize: '0.9rem', color: '#475569', marginTop: '8px', lineHeight: 1.6 }}>
-            Thank you, <strong>{formData.name}</strong>! We have opened WhatsApp with your complete trip request. 
-            Our Leh station manager is reviewing your dates and will confirm availability immediately.
+          <p className="contact-success-desc">
+            Thank you, <strong>{formData.name}</strong>! Your inquiry has been received by our Leh office.
+            Our station manager is reviewing your dates and will reach out on WhatsApp or phone shortly.
           </p>
 
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '24px', flexWrap: 'wrap' }}>
+          <div className="contact-success-actions">
             <a
-              href="tel:+919797948265"
-              className="btn-primary-orange"
-              style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '10px 20px', fontSize: '0.85rem' }}
+              href={`tel:+91${contact.phone}`}
+              className="btn-primary-orange contact-success-btn"
             >
               <PhoneCall size={16} />
               <span>Call Desk Now</span>
@@ -88,8 +76,7 @@ export default function ContactInquiryForm() {
             <button
               type="button"
               onClick={() => setSubmitted(false)}
-              className="btn-secondary-white"
-              style={{ padding: '10px 20px', fontSize: '0.85rem' }}
+              className="btn-secondary-white contact-success-btn"
             >
               Send Another Request
             </button>
@@ -98,24 +85,24 @@ export default function ContactInquiryForm() {
       ) : (
         <form onSubmit={handleSubmit} className="contact-interactive-form">
           
-          <div style={{ marginBottom: '18px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--primary-orange)' }}>
+          <div className="contact-form-header">
+            <span className="contact-form-badge">
               Fast Inquiry Dispatch
             </span>
-            <h2 style={{ fontSize: '1.45rem', fontWeight: 900, color: '#0F172A', marginTop: '2px' }}>
+            <h2 className="contact-form-title">
               Send Us Your Travel Requirements
             </h2>
-            <p style={{ fontSize: '0.825rem', color: '#64748B', marginTop: '4px' }}>
+            <p className="contact-form-subtitle">
               Get an instant quote and permit guidance directly on your phone.
             </p>
           </div>
 
           {/* Service Selector Chips */}
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 700, color: '#334155', marginBottom: '8px' }}>
+          <div className="contact-service-section">
+            <label className="form-field-label">
               Service You Are Inquiring For
             </label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <div className="contact-service-chips">
               {SERVICE_OPTIONS.map((srv) => (
                 <button
                   key={srv}
@@ -184,7 +171,7 @@ export default function ContactInquiryForm() {
           </div>
 
           {/* Row 3: Riders Count */}
-          <div style={{ marginBottom: '14px' }}>
+          <div className="contact-field-group">
             <label className="form-field-label">Number of Riders / Travelers</label>
             <select
               name="ridersCount"
@@ -200,7 +187,7 @@ export default function ContactInquiryForm() {
           </div>
 
           {/* Message / Custom Requirements */}
-          <div style={{ marginBottom: '18px' }}>
+          <div className="contact-field-group">
             <label className="form-field-label">Any Specific Bike Model or Route Preference?</label>
             <textarea
               name="message"
@@ -219,10 +206,10 @@ export default function ContactInquiryForm() {
             className="contact-submit-btn"
           >
             <Send size={16} />
-            <span>{loading ? 'Processing...' : 'Send Inquiry via WhatsApp'}</span>
+            <span>{loading ? 'Processing...' : 'Send Inquiry'}</span>
           </button>
 
-          <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', textAlign: 'center', marginTop: '10px' }}>
+          <p className="contact-privacy-note">
             🔒 No spam guaranteed. Your inquiry is directly sent to our local Leh office.
           </p>
 

@@ -2,66 +2,101 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { 
-  Flame, 
-  Sparkles, 
-  ShieldCheck, 
-  PhoneCall, 
-  ChevronLeft, 
-  ChevronRight, 
-  X, 
-  ArrowRight 
+import {
+  Flame,
+  Sparkles,
+  ShieldCheck,
+  PhoneCall,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  ArrowRight
 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { useContactInfo } from '../lib/useContactInfo';
 
-const ANNOUNCEMENTS = [
-  {
-    id: 1,
-    badge: 'Season 2026 Deal',
-    icon: Flame,
-    desktopText: 'Ladakh Season 2026 Bookings Open! Get Flat 10% OFF on all Himalayan 450 & 411 rentals.',
-    mobileText: 'Ladakh 2026 Open: Flat 10% OFF Rentals!',
-    ctaText: 'Claim Offer',
-    actionType: 'booking',
-    href: '/services#bikes',
-  },
-  {
-    id: 2,
-    badge: 'New Fleet',
-    icon: Sparkles,
-    desktopText: 'Brand New Royal Enfield Himalayan 450 Fleet with Panniers & GPS mounts ready in Leh.',
-    mobileText: 'New Himalayan 450 Fleet Ready in Leh!',
-    ctaText: 'View Bikes',
-    actionType: 'link',
-    href: '/services#bikes',
-  },
-  {
-    id: 3,
-    badge: 'Safety First',
-    icon: ShieldCheck,
-    desktopText: 'Free Riding Gear, Oxygen Cylinder & 24/7 Mechanic Backup on all guided expeditions.',
-    mobileText: 'Free Riding Gears & 24/7 Road Support!',
-    ctaText: 'Explore Tours',
-    actionType: 'link',
-    href: '/services#packages-service',
-  },
-  {
-    id: 4,
-    badge: 'Leh Desk 24/7',
-    icon: PhoneCall,
-    desktopText: 'Custom Ladakh, Zanskar & Spiti itineraries with native riders. Instant WhatsApp booking.',
-    mobileText: 'Instant Booking & Support on WhatsApp!',
-    ctaText: 'Chat Now',
-    actionType: 'external',
-    href: 'https://wa.me/919797948265?text=Hi%20Biker%20King%20Adventure,%20I%20saw%20your%20announcement%20and%20want%20to%20inquire%20about%20bike%20rentals%20and%20tours.',
-  },
-];
+const ICON_MAP = { Flame, Sparkles, ShieldCheck, PhoneCall };
+
+function getDefaultAnnouncements(whatsappNumber) {
+  return [
+    {
+      id: 1,
+      badge: 'Season 2026 Deal',
+      icon: 'Flame',
+      desktopText: 'Ladakh Season 2026 Bookings Open! Get Flat 10% OFF on all Himalayan 450 & 411 rentals.',
+      mobileText: 'Ladakh 2026 Open: Flat 10% OFF Rentals!',
+      ctaText: 'Claim Offer',
+      actionType: 'booking',
+      href: '/services#bikes',
+    },
+    {
+      id: 2,
+      badge: 'New Fleet',
+      icon: 'Sparkles',
+      desktopText: 'Brand New Royal Enfield Himalayan 450 Fleet with Panniers & GPS mounts ready in Leh.',
+      mobileText: 'New Himalayan 450 Fleet Ready in Leh!',
+      ctaText: 'View Bikes',
+      actionType: 'link',
+      href: '/services#bikes',
+    },
+    {
+      id: 3,
+      badge: 'Safety First',
+      icon: 'ShieldCheck',
+      desktopText: 'Free Riding Gear, Oxygen Cylinder & 24/7 Mechanic Backup on all guided expeditions.',
+      mobileText: 'Free Riding Gears & 24/7 Road Support!',
+      ctaText: 'Explore Tours',
+      actionType: 'link',
+      href: '/services#packages-service',
+    },
+    {
+      id: 4,
+      badge: 'Leh Desk 24/7',
+      icon: 'PhoneCall',
+      desktopText: 'Custom Ladakh, Zanskar & Spiti itineraries with native riders. Instant WhatsApp booking.',
+      mobileText: 'Instant Booking & Support on WhatsApp!',
+      ctaText: 'Chat Now',
+      actionType: 'external',
+      href: `https://wa.me/${whatsappNumber}?text=Hi%20Biker%20King%20Adventure,%20I%20saw%20your%20announcement%20and%20want%20to%20inquire%20about%20bike%20rentals%20and%20tours.`,
+    },
+  ];
+}
 
 export default function TopBar({ onOpenBooking }) {
+  const contact = useContactInfo();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isFading, setIsFading] = useState(false);
+  const [announcements, setAnnouncements] = useState(() => getDefaultAnnouncements(contact.whatsappNumber));
+  const [customAnnouncements, setCustomAnnouncements] = useState(null);
   const timerRef = useRef(null);
+
+  useEffect(() => {
+    if (!customAnnouncements) {
+      setAnnouncements(getDefaultAnnouncements(contact.whatsappNumber));
+    }
+  }, [contact.whatsappNumber, customAnnouncements]);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('home_content')
+          .select('data')
+          .eq('section_key', 'topbar')
+          .single();
+        if (!error && isMounted && data?.data?.announcements?.length) {
+          setCustomAnnouncements(data.data.announcements);
+          setAnnouncements(data.data.announcements);
+        }
+      } catch (err) {
+        console.warn('Falling back to default announcements:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
 
   // Check sessionStorage on mount
   useEffect(() => {
@@ -91,7 +126,7 @@ export default function TopBar({ onOpenBooking }) {
   const handleNext = () => {
     setIsFading(true);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
+      setCurrentIndex((prev) => (prev + 1) % announcements.length);
       setIsFading(false);
     }, 200);
   };
@@ -99,7 +134,7 @@ export default function TopBar({ onOpenBooking }) {
   const handlePrev = () => {
     setIsFading(true);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + ANNOUNCEMENTS.length) % ANNOUNCEMENTS.length);
+      setCurrentIndex((prev) => (prev - 1 + announcements.length) % announcements.length);
       setIsFading(false);
     }, 200);
   };
@@ -113,8 +148,8 @@ export default function TopBar({ onOpenBooking }) {
     }
   };
 
-  const current = ANNOUNCEMENTS[currentIndex];
-  const IconComponent = current.icon;
+  const current = announcements[currentIndex % announcements.length];
+  const IconComponent = ICON_MAP[current.icon] || Flame;
 
   if (isDismissed) {
     return null;

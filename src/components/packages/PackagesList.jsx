@@ -1,28 +1,71 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { 
-  Clock, 
-  MapPin, 
-  CheckCircle2, 
-  ArrowRight, 
-  Utensils, 
-  Building2, 
-  Bike, 
-  FileCheck 
+import {
+  Clock,
+  MapPin,
+  CheckCircle2,
+  ArrowRight,
+  Utensils,
+  Building2,
+  Bike,
+  FileCheck,
+  Eye
 } from 'lucide-react';
-import { packagesData } from '../../data/packages';
+import { packagesData as staticPackagesData } from '../../data/packages';
+import { supabase } from '../../lib/supabase';
+
+function mapDbPackage(row) {
+  return {
+    id: row.slug || row.id,
+    title: row.title,
+    duration: row.duration,
+    daysCount: row.days_count,
+    route: row.route,
+    price: row.price,
+    priceDisplay: row.price_display,
+    image: row.image_url,
+    category: row.category,
+    inclusions: Array.isArray(row.inclusions) ? row.inclusions : [],
+    highlights: Array.isArray(row.highlights) ? row.highlights : [],
+    itinerary: Array.isArray(row.itinerary) ? row.itinerary : [],
+  };
+}
 
 export default function PackagesList({ onSelectPackage, onBookPackage }) {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('recommended');
+  const [packagesData, setPackagesData] = useState(staticPackagesData);
+
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('packages')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true });
+        if (!error && isMounted && Array.isArray(data) && data.length > 0) {
+          setPackagesData(data.map(mapDbPackage));
+        }
+      } catch (err) {
+        console.warn('Falling back to static packages list:', err);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
+  const isBikeTour = (pkg) => pkg.daysCount >= 7 || pkg.id === 'ladakh-bike-expedition';
+  const isWinterTour = (pkg) => pkg.id === 'winter-snow-leopard-expedition';
+  const isFamilyTour = (pkg) => pkg.daysCount <= 6 && !isWinterTour(pkg);
 
   const categories = [
     { id: 'all', label: 'All Expeditions', count: packagesData.length },
-    { id: 'bike', label: 'Motorcycle Tours (7-8D)', count: 3 },
-    { id: 'family', label: 'Family & 4x4 Cabs (5-6D)', count: 2 },
-    { id: 'winter', label: 'Winter Snow Leopard', count: 1 }
+    { id: 'bike', label: 'Motorcycle Tours (7-8D)', count: packagesData.filter(isBikeTour).length },
+    { id: 'family', label: 'Family & 4x4 Cabs (5-6D)', count: packagesData.filter(isFamilyTour).length },
+    { id: 'winter', label: 'Winter Snow Leopard', count: packagesData.filter(isWinterTour).length },
   ];
 
   const getAmenityIcon = (name) => {
@@ -51,9 +94,9 @@ export default function PackagesList({ onSelectPackage, onBookPackage }) {
 
   const filteredPackages = packagesData.filter((pkg) => {
     if (selectedCategory === 'all') return true;
-    if (selectedCategory === 'bike') return pkg.daysCount >= 7 || pkg.id === 'ladakh-bike-expedition';
-    if (selectedCategory === 'family') return pkg.daysCount <= 6 && pkg.id !== 'winter-snow-leopard-expedition';
-    if (selectedCategory === 'winter') return pkg.id === 'winter-snow-leopard-expedition';
+    if (selectedCategory === 'bike') return isBikeTour(pkg);
+    if (selectedCategory === 'family') return isFamilyTour(pkg);
+    if (selectedCategory === 'winter') return isWinterTour(pkg);
     return true;
   }).sort((a, b) => {
     if (sortBy === 'price-low') return a.price - b.price;
@@ -63,7 +106,7 @@ export default function PackagesList({ onSelectPackage, onBookPackage }) {
   });
 
   return (
-    <section className="container-custom" style={{ paddingBottom: '48px' }}>
+    <section className="container-custom" style={{ paddingTop: '40px', paddingBottom: '48px' }}>
       
       {/* Filter & Sort Bar */}
       <div className="packages-filter-bar">
@@ -227,13 +270,19 @@ export default function PackagesList({ onSelectPackage, onBookPackage }) {
                         border: '1px solid #CBD5E1',
                         color: '#0F172A',
                         borderRadius: 'var(--radius-sm)',
-                        padding: '8px 12px',
-                        fontSize: '0.8rem',
+                        padding: '7px 10px',
+                        fontSize: '0.78rem',
                         fontWeight: 700,
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        whiteSpace: 'nowrap',
+                        flexShrink: 0
                       }}
                     >
-                      Itinerary
+                      <Eye size={13} color="#EA580C" style={{ flexShrink: 0 }} />
+                      <span style={{ whiteSpace: 'nowrap' }}>See Details</span>
                     </button>
 
                     <button
@@ -243,10 +292,10 @@ export default function PackagesList({ onSelectPackage, onBookPackage }) {
                         onBookPackage(pkg);
                       }}
                       className="btn-primary-orange"
-                      style={{ padding: '8px 16px', fontSize: '0.8rem' }}
+                      style={{ padding: '7px 12px', fontSize: '0.78rem', whiteSpace: 'nowrap', flexShrink: 0 }}
                     >
                       <span>Book</span>
-                      <ArrowRight size={13} style={{ marginLeft: '4px' }} />
+                      <ArrowRight size={13} style={{ marginLeft: '4px', flexShrink: 0 }} />
                     </button>
                   </div>
                 </div>

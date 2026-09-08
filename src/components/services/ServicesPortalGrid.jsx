@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Bike, Car, Compass, ArrowRight, Sparkles } from 'lucide-react';
+import { Bike, Car, Compass, ArrowRight } from 'lucide-react';
 
 export default function ServicesPortalGrid() {
   const portalCards = [
@@ -39,8 +39,8 @@ export default function ServicesPortalGrid() {
   ];
 
   return (
-    <section className="container-custom" style={{ paddingTop: '28px', paddingBottom: '36px' }}>
-      <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+    <section className="container-custom" style={{ paddingTop: '40px', paddingBottom: '32px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
         <h2 style={{ fontSize: '1.75rem', fontWeight: 900, color: '#0F172A' }}>
           Explore Our Core Adventure Portals
         </h2>
@@ -49,38 +49,25 @@ export default function ServicesPortalGrid() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '22px' }}>
+      <div className="services-portal-grid">
         {portalCards.map((portal, idx) => {
           const IconComp = portal.icon;
           return (
-            <div
-              key={idx}
-              style={{
-                background: '#FFFFFF',
-                border: '1px solid rgba(14, 165, 233, 0.22)',
-                borderRadius: 'var(--radius-xl)',
-                padding: '28px 24px',
-                boxShadow: '0 8px 24px rgba(14, 165, 233, 0.08)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                position: 'relative',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease'
-              }}
-            >
+            <div key={idx} className="services-portal-card">
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                  <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-full)', background: `${portal.accentColor}15`, color: portal.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <IconComp size={24} />
+                  <div style={{ width: '44px', height: '44px', borderRadius: 'var(--radius-full)', background: `${portal.accentColor}15`, color: portal.accentColor, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IconComp size={22} />
                   </div>
                   <span style={{ fontSize: '0.72rem', fontWeight: 800, background: `${portal.accentColor}12`, color: portal.accentColor, padding: '3px 10px', borderRadius: 'var(--radius-full)', textTransform: 'uppercase' }}>
                     {portal.badge}
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '1.3rem', fontWeight: 900, color: '#0F172A', marginBottom: '4px' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A', marginBottom: '4px' }}>
                   {portal.title}
                 </h3>
+                
                 <span style={{ fontSize: '0.78rem', fontWeight: 700, color: portal.accentColor, textTransform: 'uppercase', letterSpacing: '0.04em', display: 'block', marginBottom: '10px' }}>
                   {portal.subtitle}
                 </span>
@@ -93,7 +80,7 @@ export default function ServicesPortalGrid() {
               <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ fontSize: '0.7rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 700, display: 'block' }}>Pricing</span>
-                  <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#0F172A' }}>{portal.price}</span>
+                  <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#0F172A' }}>{portal.price}</span>
                 </div>
 
                 <Link

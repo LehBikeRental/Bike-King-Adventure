@@ -2,12 +2,15 @@
 
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
-import { Fuel, Gauge, Shield, Zap, SlidersHorizontal, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Fuel, Gauge, Zap, SlidersHorizontal, CheckCircle2, ArrowRight, Info } from 'lucide-react';
+import VehicleDetailsModal from './VehicleDetailsModal';
 import { bikesData } from '../data/bikes';
 
 export default function BikeFleet({ onSelectBike, onOpenAllBikes }) {
   const [activeTab, setActiveTab] = useState('all');
   const [sortBy, setSortBy] = useState('featured');
+  const [detailsItem, setDetailsItem] = useState(null);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
   const categories = [
     { id: 'all', label: 'All Fleet', count: bikesData.length },
@@ -35,64 +38,63 @@ export default function BikeFleet({ onSelectBike, onOpenAllBikes }) {
   }, [activeTab, sortBy]);
 
   return (
-    <section className="container-custom" id="bikes" style={{ paddingTop: '52px', paddingBottom: '44px' }}>
-
-      {/* Section Badge Header */}
-      <div className="section-badge-header">
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(234, 88, 12, 0.1)', color: 'var(--primary-orange)', padding: '6px 14px', borderRadius: 'var(--radius-full)', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>
-          <Zap size={14} />
-          <span>Showroom Maintained Fleet</span>
+    <section className="bikes-fleet-section" id="fleet">
+      
+      {/* Section Header */}
+      <div className="bikes-header-row">
+        <div>
+          <span className="section-badge-orange">RECOMMENDED VEHICLES</span>
+          <h2 className="section-title-dark">Choose Your Ladakh Machine</h2>
         </div>
-        <h2 className="title-divider">
-          PREMIUM MOTORCYCLE FLEET
-        </h2>
-        <p style={{ color: 'var(--slate-500)', fontSize: '0.9rem', maxWidth: '600px', margin: '8px auto 0 auto', textAlign: 'center' }}>
-          High-performance Royal Enfields pre-fitted with luggage carriers, crash guards, and puncture-resistant all-terrain tyres.
-        </p>
+
+        <button
+          className="btn-view-all-desktop"
+          onClick={onOpenAllBikes}
+        >
+          <span>View All Models</span>
+          <ArrowRight size={16} />
+        </button>
       </div>
 
-      {/* Interactive Controls Bar: Category Pills + Sort Dropdown */}
-      <div className="fleet-controls-bar">
-        
-        {/* Category Pills */}
-        <div className="fleet-category-tabs">
+      {/* Filter & Sort Bar */}
+      <div className="bikes-filter-bar">
+        <div className="filter-pills-row">
           {categories.map((cat) => (
             <button
               key={cat.id}
-              type="button"
               onClick={() => setActiveTab(cat.id)}
-              className={`fleet-tab-btn ${activeTab === cat.id ? 'active' : ''}`}
+              className={`filter-pill-btn ${activeTab === cat.id ? 'active' : ''}`}
             >
               <span>{cat.label}</span>
-              <span className="fleet-tab-badge">{cat.count}</span>
+              <span className="filter-pill-count">{cat.count}</span>
             </button>
           ))}
         </div>
 
-        {/* Sort Controls */}
-        <div className="fleet-sort-wrapper">
-          <SlidersHorizontal size={15} className="fleet-sort-icon" />
+        <div className="filter-sort-row">
+          <SlidersHorizontal size={14} className="sort-icon" />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="fleet-sort-select"
-            aria-label="Sort motorcycles"
+            className="filter-sort-select"
           >
-            <option value="featured">Featured / Recommended</option>
+            <option value="featured">Featured First</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
           </select>
         </div>
-
       </div>
 
-      {/* 8 Bikes Dynamic Grid */}
+      {/* Bike Cards Grid */}
       <div className="bikes-grid">
         {filteredBikes.map((bike) => (
           <div
             key={bike.id}
             className="bike-card"
-            onClick={() => onSelectBike && onSelectBike(bike)}
+            onClick={() => {
+              setDetailsItem(bike);
+              setDetailsOpen(true);
+            }}
           >
             {/* Top Badge */}
             {bike.badge && (
@@ -105,7 +107,7 @@ export default function BikeFleet({ onSelectBike, onOpenAllBikes }) {
                 src={bike.image}
                 alt={bike.name}
                 fill
-                style={{ objectFit: 'contain' }}
+                style={{ objectFit: 'cover' }}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
             </div>
@@ -133,6 +135,33 @@ export default function BikeFleet({ onSelectBike, onOpenAllBikes }) {
                   <span>{bike.groundClearance || '200 mm'}</span>
                 </span>
               </div>
+
+              {/* See Details Button */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDetailsItem(bike);
+                  setDetailsOpen(true);
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#EA580C',
+                  fontSize: '0.78rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  margin: '8px 0',
+                  padding: 0,
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                <Info size={13} style={{ flexShrink: 0 }} />
+                <span style={{ whiteSpace: 'nowrap' }}>See Details</span>
+              </button>
 
               {/* Card Footer: Price & Prominent Action Button */}
               <div className="bike-card-footer">
@@ -181,6 +210,15 @@ export default function BikeFleet({ onSelectBike, onOpenAllBikes }) {
           <span>Pre-Assigned Inner Line Permits</span>
         </div>
       </div>
+
+      {/* Vehicle Details Modal */}
+      <VehicleDetailsModal
+        item={detailsItem}
+        type="bike"
+        isOpen={detailsOpen}
+        onClose={() => setDetailsOpen(false)}
+        onBookItem={(item) => onSelectBike && onSelectBike(item)}
+      />
 
     </section>
   );

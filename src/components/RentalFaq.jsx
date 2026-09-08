@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { ChevronDown, HelpCircle, ShieldCheck, PhoneCall, MessageCircle } from 'lucide-react';
 import { rentalFaqsData } from '../data/faqs';
+import { useContactInfo } from '../lib/useContactInfo';
 
 export default function RentalFaq() {
+  const contact = useContactInfo();
   const [openIndex, setOpenIndex] = useState(0);
 
   const toggleFaq = (idx) => {
@@ -76,7 +78,7 @@ export default function RentalFaq() {
 
             <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <a
-                href="https://wa.me/919797948265?text=Hi%20Biker%20King%20Adventure,%20I%20have%20a%20question%20about%20bike%20rentals%20in%20Leh."
+                href={`https://wa.me/${contact.whatsappNumber}?text=Hi%20Biker%20King%20Adventure,%20I%20have%20a%20question%20about%20bike%20rentals%20in%20Leh.`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary-orange"
@@ -95,7 +97,7 @@ export default function RentalFaq() {
               </a>
 
               <a
-                href="tel:+919797948265"
+                href={`tel:+91${contact.phone}`}
                 className="btn-outline-dark"
                 style={{
                   display: 'flex',
@@ -108,13 +110,13 @@ export default function RentalFaq() {
                 }}
               >
                 <PhoneCall size={16} />
-                <span>Call +91 9797948265</span>
+                <span>Call {contact.phoneDisplay}</span>
               </a>
             </div>
 
             <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--slate-200)', textAlign: 'left' }}>
               <p style={{ fontSize: '0.78rem', color: 'var(--slate-500)', lineHeight: 1.5 }}>
-                📍 <strong>Local Office:</strong> Malpax Complex, Leh Main Market, Ladakh 194101<br />
+                📍 <strong>Local Office:</strong> {contact.addressLine1}<br />
                 ⏰ <strong>Timings:</strong> Mon - Sun: 7:00 AM - 10:00 PM
               </p>
             </div>

@@ -11,7 +11,6 @@ import FloatingWhatsApp from '../../components/FloatingWhatsApp';
 import MobileStickyBar from '../../components/MobileStickyBar';
 import RentalFaq from '../../components/RentalFaq';
 import BikeFleetList from '../../components/bikes/BikeFleetList';
-import RidingGearSection from '../../components/bikes/RidingGearSection';
 import RentalGuidelines from '../../components/bikes/RentalGuidelines';
 
 export default function BikesPage() {
@@ -53,10 +52,7 @@ export default function BikesPage() {
       {/* 3. Filterable Bike Fleet Grid */}
       <BikeFleetList onOpenBooking={handleOpenBooking} />
 
-      {/* 4. Riding Gear & Accessories Rental Checklist */}
-      <RidingGearSection onOpenBooking={handleOpenBooking} />
-
-      {/* 5. Rental Guidelines & Handover Terms */}
+      {/* 4. Rental Guidelines & Handover Terms */}
       <RentalGuidelines />
 
       {/* 6. FAQs */}

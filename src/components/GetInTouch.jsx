@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Send, CheckCircle2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function GetInTouch() {
   const [formData, setFormData] = useState({
@@ -12,14 +13,30 @@ export default function GetInTouch() {
     message: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (supabase) {
+        await supabase.from('leads').insert([
+          {
+            full_name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            service: formData.subject || 'General Inquiry',
+            message: formData.message,
+          }
+        ]);
+      }
+    } catch (err) {
+      console.warn('Supabase lead record skipped:', err);
+    }
+
+    setLoading(false);
     setSubmitted(true);
-    
-    // Construct WhatsApp message URL
-    const text = `*New Inquiry from Biker King Website*%0A%0A*Name:* ${encodeURIComponent(formData.name)}%0A*Email:* ${encodeURIComponent(formData.email)}%0A*Phone:* ${encodeURIComponent(formData.phone)}%0A*Subject:* ${encodeURIComponent(formData.subject || 'Trip Inquiry')}%0A*Message:* ${encodeURIComponent(formData.message)}`;
-    window.open(`https://wa.me/919797948265?text=${text}`, '_blank');
   };
 
   return (
@@ -44,7 +61,7 @@ export default function GetInTouch() {
           <CheckCircle2 size={32} style={{ color: 'var(--primary-orange)', margin: '0 auto 8px auto' }} />
           <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#FFFFFF' }}>Message Sent Successfully!</h4>
           <p style={{ fontSize: '0.85rem', color: '#CBD5E1', marginTop: '4px' }}>
-            Our Leh team is reviewing your inquiry. We have also opened WhatsApp to assist you immediately.
+            Our Leh team has received your inquiry and will get back to you on WhatsApp or phone shortly.
           </p>
           <button
             onClick={() => setSubmitted(false)}
@@ -109,10 +126,11 @@ export default function GetInTouch() {
           {/* Submit Button */}
           <button
             type="submit"
+            disabled={loading}
             className="btn-primary-orange"
             style={{ width: '100%', padding: '10px 16px', fontSize: '0.875rem', marginTop: '2px' }}
           >
-            SEND MESSAGE
+            {loading ? 'SENDING...' : 'SEND MESSAGE'}
           </button>
 
         </form>

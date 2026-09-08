@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Award, Clock, Users, Bike, MessageCircle } from 'lucide-react';
+import { Award, Clock, Users, Bike } from 'lucide-react';
 
 export default function CustomPackageCalculator({ onBookPackage }) {
   const [calcDays, setCalcDays] = useState(7);
@@ -30,10 +30,6 @@ export default function CustomPackageCalculator({ onBookPackage }) {
   const totalVehicleCost = calcDays * estVehicleDaily;
   const estTotalPackage = Math.round(totalStayCost + totalVehicleCost);
   const estPerPersonCost = Math.round(estTotalPackage / Math.max(1, calcTravelers));
-
-  const whatsappInquiryText = encodeURIComponent(
-    `Hi Biker King Adventure! I want to book a Custom Ladakh Tour:\n• Duration: ${calcDays} Days\n• Travelers: ${calcTravelers} Person(s)\n• Vehicle: ${vehicleNames[calcVehicle]}\n• Approx Quote: ₹${estPerPersonCost.toLocaleString('en-IN')}/person\nPlease send me detailed itinerary and dates!`
-  );
 
   return (
     <section className="container-custom" style={{ paddingBottom: '48px' }}>
@@ -166,22 +162,11 @@ export default function CustomPackageCalculator({ onBookPackage }) {
           </div>
 
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <a
-              href={`https://wa.me/919797948265?text=${whatsappInquiryText}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary-orange"
-              style={{ padding: '12px 24px', fontSize: '0.875rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
-            >
-              <MessageCircle size={17} />
-              <span>Get Quotation on WhatsApp</span>
-            </a>
-
             <button
               type="button"
               onClick={() => onBookPackage({ title: `Custom ${calcDays}D Tour (${vehicleNames[calcVehicle]})`, priceDisplay: `₹${estPerPersonCost.toLocaleString('en-IN')} / person` })}
-              className="btn-outline-dark"
-              style={{ background: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.3)', color: '#FFFFFF', padding: '12px 20px', fontSize: '0.875rem', cursor: 'pointer' }}
+              className="btn-primary-orange"
+              style={{ padding: '12px 24px', fontSize: '0.875rem', cursor: 'pointer' }}
             >
               Book Now
             </button>
