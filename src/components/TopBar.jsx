@@ -68,15 +68,11 @@ export default function TopBar({ onOpenBooking }) {
   const [isPaused, setIsPaused] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [isFading, setIsFading] = useState(false);
-  const [announcements, setAnnouncements] = useState(() => getDefaultAnnouncements(contact.whatsappNumber));
-  const [customAnnouncements, setCustomAnnouncements] = useState(null);
-  const timerRef = useRef(null);
+  // Start with nothing rendered — never flash hardcoded defaults before we
+  // know what's actually saved in the database (even an empty list).
+  const [announcements, setAnnouncements] = useState([]);
 
-  useEffect(() => {
-    if (!customAnnouncements) {
-      setAnnouncements(getDefaultAnnouncements(contact.whatsappNumber));
-    }
-  }, [contact.whatsappNumber, customAnnouncements]);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -87,15 +83,20 @@ export default function TopBar({ onOpenBooking }) {
           .select('data')
           .eq('section_key', 'topbar')
           .single();
-        if (!error && isMounted && Array.isArray(data?.data?.announcements)) {
-          setCustomAnnouncements(data.data.announcements);
+        if (!isMounted) return;
+        if (!error && Array.isArray(data?.data?.announcements)) {
           setAnnouncements(data.data.announcements);
+        } else {
+          // Row genuinely doesn't exist yet — fall back to defaults.
+          setAnnouncements(getDefaultAnnouncements(contact.whatsappNumber));
         }
       } catch (err) {
         console.warn('Falling back to default announcements:', err);
+        if (isMounted) setAnnouncements(getDefaultAnnouncements(contact.whatsappNumber));
       }
     })();
     return () => { isMounted = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Check sessionStorage on mount
