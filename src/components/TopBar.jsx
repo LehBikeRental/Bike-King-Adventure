@@ -87,7 +87,7 @@ export default function TopBar({ onOpenBooking }) {
           .select('data')
           .eq('section_key', 'topbar')
           .single();
-        if (!error && isMounted && data?.data?.announcements?.length) {
+        if (!error && isMounted && Array.isArray(data?.data?.announcements)) {
           setCustomAnnouncements(data.data.announcements);
           setAnnouncements(data.data.announcements);
         }
@@ -112,7 +112,7 @@ export default function TopBar({ onOpenBooking }) {
 
   // Handle auto-rotation
   useEffect(() => {
-    if (isPaused || isDismissed) return;
+    if (isPaused || isDismissed || announcements.length === 0) return;
 
     timerRef.current = setInterval(() => {
       handleNext();
@@ -121,7 +121,7 @@ export default function TopBar({ onOpenBooking }) {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [currentIndex, isPaused, isDismissed]);
+  }, [currentIndex, isPaused, isDismissed, announcements.length]);
 
   const handleNext = () => {
     setIsFading(true);
@@ -148,12 +148,12 @@ export default function TopBar({ onOpenBooking }) {
     }
   };
 
-  const current = announcements[currentIndex % announcements.length];
-  const IconComponent = ICON_MAP[current.icon] || Flame;
-
-  if (isDismissed) {
+  if (isDismissed || announcements.length === 0) {
     return null;
   }
+
+  const current = announcements[currentIndex % announcements.length];
+  const IconComponent = ICON_MAP[current.icon] || Flame;
 
   const handleCtaClick = (e) => {
     if (current.actionType === 'booking') {
